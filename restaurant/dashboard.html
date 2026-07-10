@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Merchant Dashboard - FastX</title>
+  <meta name="description" content="Manage orders, kitchens, menus, and view daily sales analytics for your restaurant with FastX Merchant.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/restaurant-dashboard.css">
+</head>
+<body class="dashboard-root">
+
+  <!-- ==========================================
+       1. SIDEBAR NAVIGATION (Desktop)
+       ========================================== -->
+  <aside class="owner-sidebar" aria-label="Merchant Navigation">
+    <div class="sidebar-header">
+      <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+      <span class="font-weight-bold text-lg" style="letter-spacing: 0.5px;">FastX <span style="color: var(--color-primary);">Partner</span></span>
+    </div>
+
+    <!-- Tab navigation button groups -->
+    <nav class="sidebar-menu">
+      <button class="sidebar-btn active" onclick="switchTab('dashboard')" id="btn-dashboard">
+        📊 Dashboard
+      </button>
+      <button class="sidebar-btn" onclick="switchTab('kitchen')" id="btn-kitchen">
+        🍳 Kitchen Queue
+      </button>
+      <button class="sidebar-btn" onclick="switchTab('menu')" id="btn-menu">
+        📋 Menu Manager
+      </button>
+      <button class="sidebar-btn" onclick="switchTab('analytics')" id="btn-analytics">
+        📈 Analytics
+      </button>
+      <button class="sidebar-btn" onclick="switchTab('profile')" id="btn-profile">
+        🏪 Restaurant Profile
+      </button>
+      <button class="sidebar-btn" onclick="switchTab('settings')" id="btn-settings">
+        ⚙️ Settings
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn btn-secondary btn-block" onclick="processOwnerLogout()" style="padding: 8px;">
+        Log Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       2. MAIN WORKSPACE / CONTENT PANELS
+       ========================================== -->
+  <main class="dashboard-main">
+    
+    <!-- Workspace Header -->
+    <header class="dashboard-header">
+      <div>
+        <h1 class="text-3xl" id="display-restaurant-name">Meghana Foods</h1>
+        <p class="text-xs" style="color: var(--color-dark-text-muted); margin-top: 2px;">📍 Indiranagar, Bengaluru • Merchant Portal</p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: var(--space-4);">
+        <!-- Active Status Toggle -->
+        <div class="header-status-toggle">
+          <span class="text-xs font-weight-bold" id="status-label" style="color: var(--color-success);">OPEN FOR ORDERS</span>
+          <label class="switch-toggle" style="width: 36px; height: 18px;">
+            <input type="checkbox" checked id="status-toggle-checkbox" onclick="toggleStoreStatus(this.checked)">
+            <span class="slider-switch" style="before: {width: 12px; height: 12px;}"></span>
+          </label>
+        </div>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         TAB PANEL 1: OVERVIEW DASHBOARD
+         ====================================================================== -->
+    <section class="dashboard-tab-panel active" id="panel-dashboard">
+      <!-- 4 Stats Cards Grid -->
+      <div class="analytics-grid">
+        <div class="card">
+          <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted);">TODAY'S ORDERS</span>
+          <div class="text-2xl font-weight-bold" id="stats-orders" style="margin-top: 4px;">42</div>
+        </div>
+        <div class="card">
+          <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted);">TODAY'S REVENUE</span>
+          <div class="text-2xl font-weight-bold" id="stats-revenue" style="margin-top: 4px; color: var(--color-success);">₹14,820</div>
+        </div>
+        <div class="card">
+          <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted);">ACTIVE PREPARING</span>
+          <div class="text-2xl font-weight-bold" id="stats-active" style="margin-top: 4px; color: var(--color-warning);">3</div>
+        </div>
+        <div class="card">
+          <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted);">AVERAGE RATING</span>
+          <div class="text-2xl font-weight-bold" style="margin-top: 4px; color: #F59E0B;">★ 4.8</div>
+        </div>
+      </div>
+
+      <!-- CSS Bar Chart (Today's Hourly Sales) -->
+      <div class="chart-container">
+        <h3 class="text-lg font-weight-bold">Today's Hourly Sales Volume</h3>
+        <div class="chart-bar-list">
+          <div class="chart-bar-wrapper">
+            <div class="chart-bar" style="height: 30%" data-value="12 orders"></div>
+            <span class="chart-label">12:00</span>
+          </div>
+          <div class="chart-bar-wrapper">
+            <div class="chart-bar" style="height: 65%" data-value="26 orders"></div>
+            <span class="chart-label">13:00</span>
+          </div>
+          <div class="chart-bar-wrapper">
+            <div class="chart-bar" style="height: 85%" data-value="34 orders"></div>
+            <span class="chart-label">14:00</span>
+          </div>
+          <div class="chart-bar-wrapper">
+            <div class="chart-bar" style="height: 20%" data-value="8 orders"></div>
+            <span class="chart-label">15:00</span>
+          </div>
+          <div class="chart-bar-wrapper">
+            <div class="chart-bar" style="height: 15%" data-value="6 orders"></div>
+            <span class="chart-label">16:00</span>
+          </div>
+          <div class="chart-bar-wrapper">
+            <div class="chart-bar" style="height: 40%" data-value="16 orders"></div>
+            <span class="chart-label">17:00</span>
+          </div>
+          <div class="chart-bar-wrapper">
+            <div class="chart-bar" style="height: 70%" data-value="28 orders"></div>
+            <span class="chart-label">18:00</span>
+          </div>
+          <div class="chart-bar-wrapper">
+            <div class="chart-bar" style="height: 95%" data-value="38 orders"></div>
+            <span class="chart-label">19:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Reviews -->
+      <div class="card" style="padding: var(--space-6);">
+        <h3 class="text-lg font-weight-bold" style="margin-bottom: var(--space-4);">Recent Customer Reviews</h3>
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+          <div style="border-bottom: 1px solid var(--color-dark-border); padding-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="font-weight-semibold" style="font-size: 0.9375rem; color: var(--color-dark-text-main);">Rohan G.</span>
+              <span style="color: #F59E0B; font-size: 0.8125rem;">★ 5.0</span>
+            </div>
+            <p class="text-xs" style="color: var(--color-dark-text-muted); margin-top: 4px;">"The Meghana Special Biryani was piping hot, spices were perfect! Delivered within 20 mins."</p>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="font-weight-semibold" style="font-size: 0.9375rem; color: var(--color-dark-text-main);">Divya S.</span>
+              <span style="color: #F59E0B; font-size: 0.8125rem;">★ 4.0</span>
+            </div>
+            <p class="text-xs" style="color: var(--color-dark-text-muted); margin-top: 4px;">"Paneer Biryani was flavorful, though the portion size was slightly smaller than expected."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 2: KITCHEN QUEUE
+         ====================================================================== -->
+    <section class="dashboard-tab-panel" id="panel-kitchen">
+      <div class="orders-lane-grid">
+        
+        <!-- Left: Incoming Order Request Pool -->
+        <div>
+          <h2 class="form-section-title" style="font-size: 1.125rem; border-color: var(--color-primary);">
+            New Orders Pool (Needs Review)
+          </h2>
+          <div class="order-history-list" id="new-orders-container">
+            <!-- Simulated orders arrive here -->
+          </div>
+        </div>
+
+        <!-- Right: Active Preparation Queue -->
+        <div>
+          <h2 class="form-section-title" style="font-size: 1.125rem; border-color: var(--color-success);">
+            Active Kitchen Prep & Handover
+          </h2>
+          <div class="order-history-list" id="active-prep-container">
+            <!-- Accepted orders move here -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 3: MENU MANAGEMENT
+         ====================================================================== -->
+    <section class="dashboard-tab-panel" id="panel-menu">
+      <div class="menu-controls-row">
+        <!-- Search bar input -->
+        <div class="input-group" style="max-width: 320px; margin-bottom: 0;">
+          <input class="input-field" type="text" id="menu-search-input" placeholder="Search menu item..." oninput="filterMenuTable(this.value)">
+        </div>
+        
+        <button class="btn btn-primary" onclick="openAddMenuModal()">
+          + Add New Item
+        </button>
+      </div>
+
+      <!-- Menu Items list table -->
+      <div style="overflow-x: auto; margin-top: var(--space-4);">
+        <table class="menu-list-table">
+          <thead>
+            <tr>
+              <th>Dish Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Type</th>
+              <th>Availability</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="menu-items-table-body">
+            <!-- Data populated dynamically via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 4: ANALYTICS DETAIL
+         ====================================================================== -->
+    <section class="dashboard-tab-panel" id="panel-analytics">
+      <div class="grid grid-2-col">
+        
+        <!-- Weekly Sales bar mock -->
+        <div class="chart-container">
+          <h3 class="text-lg font-weight-bold">Weekly Sales Trends</h3>
+          <div class="chart-bar-list" style="height: 180px;">
+            <div class="chart-bar-wrapper" style="width: 12%;">
+              <div class="chart-bar" style="height: 60%" data-value="₹28k"></div>
+              <span class="chart-label">Wk 1</span>
+            </div>
+            <div class="chart-bar-wrapper" style="width: 12%;">
+              <div class="chart-bar" style="height: 75%" data-value="₹36k"></div>
+              <span class="chart-label">Wk 2</span>
+            </div>
+            <div class="chart-bar-wrapper" style="width: 12%;">
+              <div class="chart-bar" style="height: 45%" data-value="₹21k"></div>
+              <span class="chart-label">Wk 3</span>
+            </div>
+            <div class="chart-bar-wrapper" style="width: 12%;">
+              <div class="chart-bar" style="height: 90%" data-value="₹44k"></div>
+              <span class="chart-label">Wk 4</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Selling Items progress bars -->
+        <div class="card" style="padding: var(--space-6);">
+          <h3 class="text-lg font-weight-bold" style="margin-bottom: var(--space-4);">Top Selling Menu Items</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 6px;">
+                <span class="font-weight-semibold">Meghana Chicken Biryani</span>
+                <span style="color: var(--color-primary); font-weight: 700;">642 orders</span>
+              </div>
+              <div style="height: 6px; background-color: var(--color-dark-border); border-radius: var(--radius-full); overflow: hidden;">
+                <div style="height: 100%; width: 85%; background-color: var(--color-primary); border-radius: var(--radius-full);"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 6px;">
+                <span class="font-weight-semibold">Meghana Special Chicken Biryani</span>
+                <span style="color: var(--color-primary); font-weight: 700;">480 orders</span>
+              </div>
+              <div style="height: 6px; background-color: var(--color-dark-border); border-radius: var(--radius-full); overflow: hidden;">
+                <div style="height: 100%; width: 68%; background-color: var(--color-primary); border-radius: var(--radius-full);"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 6px;">
+                <span class="font-weight-semibold">Paneer Biryani</span>
+                <span style="color: var(--color-primary); font-weight: 700;">210 orders</span>
+              </div>
+              <div style="height: 6px; background-color: var(--color-dark-border); border-radius: var(--radius-full); overflow: hidden;">
+                <div style="height: 100%; width: 35%; background-color: var(--color-primary); border-radius: var(--radius-full);"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 5: RESTAURANT PROFILE
+         ====================================================================== -->
+    <section class="dashboard-tab-panel" id="panel-profile">
+      <form id="owner-profile-form" onsubmit="saveOwnerProfile(event)" class="card" style="padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);">
+        
+        <h3 class="text-lg font-weight-bold" style="border-bottom: 1px solid var(--color-dark-border); padding-bottom: 8px;">Store Profile Details</h3>
+
+        <div class="form-row form-row-2">
+          <div class="input-group">
+            <label class="input-label" for="store-name">Restaurant Name</label>
+            <input class="input-field" type="text" id="store-name" required value="Meghana Foods">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="store-phone">Contact Information</label>
+            <input class="input-field" type="text" id="store-phone" required value="+91 80 2520 2200">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="store-address">Operating Address</label>
+          <input class="input-field" type="text" id="store-address" required value="124, 1st Cross Rd, Near Jyoti Nivas College, Koramangala 5th Block, Bengaluru">
+        </div>
+
+        <div class="form-row form-row-2">
+          <div class="input-group">
+            <label class="input-label" for="store-hours">Opening Hours</label>
+            <input class="input-field" type="text" id="store-hours" required value="11:00 AM - 11:30 PM">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="store-radius">Delivery Radius (km)</label>
+            <input class="input-field" type="text" id="store-radius" required value="8 km">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: var(--space-2);">
+          <button class="btn btn-primary" type="submit">
+            Save Details
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 6: SETTINGS
+         ====================================================================== -->
+    <section class="dashboard-tab-panel" id="panel-settings">
+      <div class="card" style="padding: var(--space-6);">
+        <h3 class="text-lg font-weight-bold" style="margin-bottom: var(--space-4);">Merchant Controls</h3>
+        
+        <div class="settings-list">
+          <div class="settings-row">
+            <div>
+              <p class="font-weight-semibold">Order Sound Notifications</p>
+              <p class="text-xs" style="color: var(--color-dark-text-muted);">Play chime alert sound when a new order request arrives</p>
+            </div>
+            <label class="switch-toggle">
+              <input type="checkbox" checked id="settings-sound">
+              <span class="slider-switch"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div>
+              <p class="font-weight-semibold">Auto-Accept Orders</p>
+              <p class="text-xs" style="color: var(--color-dark-text-muted);">Accept incoming orders automatically after 15 seconds if unanswered</p>
+            </div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="settings-autoaccept">
+              <span class="slider-switch"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       3. ADD/EDIT MENU ITEM MODAL DIALOG
+       ========================================== -->
+  <div id="menu-modal-overlay" class="modal-overlay" aria-modal="true" role="dialog">
+    <div class="success-modal" style="max-width: 460px; text-align: left; align-items: stretch; padding: var(--space-6);">
+      
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-2);">
+        <h2 class="text-2xl" id="modal-title" style="color: var(--color-dark-text-main); margin: 0;">Add Menu Item</h2>
+        <button onclick="closeMenuModal()" style="background: none; border: none; color: var(--color-dark-text-muted); font-size: 1.25rem; cursor: pointer;">✕</button>
+      </div>
+      
+      <form id="menu-item-form" onsubmit="saveMenuItem(event)" style="display: flex; flex-direction: column; gap: var(--space-4);">
+        <!-- Hidden input to store item ID when editing -->
+        <input type="hidden" id="form-item-index">
+
+        <div class="input-group">
+          <label class="input-label" for="form-item-name">Item Name</label>
+          <input class="input-field" type="text" id="form-item-name" required placeholder="e.g. Chicken Tikka Biryani">
+        </div>
+
+        <div class="form-row form-row-2">
+          <div class="input-group">
+            <label class="input-label" for="form-item-price">Price ($)</label>
+            <input class="input-field" type="number" step="0.01" id="form-item-price" required placeholder="e.g. 8.99">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="form-item-category">Category</label>
+            <select class="input-field" id="form-item-category" required style="cursor: pointer;">
+              <option value="Starters">Starters</option>
+              <option value="Biryani">Biryani</option>
+              <option value="Main Course">Main Course</option>
+              <option value="Desserts">Desserts</option>
+              <option value="Drinks">Drinks</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="form-item-desc">Description</label>
+          <textarea class="input-field" id="form-item-desc" placeholder="Briefly describe dish ingredients..." style="height: 60px; resize: none;"></textarea>
+        </div>
+
+        <!-- Veg/NonVeg Toggle -->
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <span class="input-label">Vegetarian Dish?</span>
+          <label class="switch-toggle" style="width: 36px; height: 18px;">
+            <input type="checkbox" id="form-item-veg">
+            <span class="slider-switch"></span>
+          </label>
+        </div>
+
+        <div style="display: flex; gap: var(--space-4); margin-top: var(--space-2);">
+          <button class="btn btn-secondary" type="button" onclick="closeMenuModal()" style="flex: 1;">Cancel</button>
+          <button class="btn btn-primary" type="submit" style="flex: 1;">Save Dish</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       4. TOAST CONTAINER (For simulated incoming orders)
+       ========================================== -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Load Merchant Dashboard Logic Script -->
+  <script src="../js/pages/restaurant-dashboard.js"></script>
+</body>
+</html>

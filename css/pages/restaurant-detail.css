@@ -1,0 +1,413 @@
+/*
+ ==========================================================================
+  FASTX RESTAURANT DETAIL SCREEN STYLING
+  This stylesheet controls layouts for the Restaurant details and Menu page.
+  Pre-requisites: design-system.css and components.css must be loaded first.
+ ==========================================================================
+*/
+
+/* ------------------------------------------------------------------------
+   1. Cover Banner & Profile Headers
+   ------------------------------------------------------------------------ */
+.restaurant-banner-section {
+  position: relative;
+  padding-top: 70px; /* Offset the fixed nav height */
+}
+
+.restaurant-cover-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 1.5px solid var(--color-dark-border);
+}
+
+@media (min-width: 768px) {
+  .restaurant-cover-image {
+    height: 320px;
+  }
+}
+
+/* Glassmorphism Profile Info Overlay Card */
+.restaurant-profile-card {
+  margin-top: -60px; /* Offset upward to sit on top of the cover photo */
+  position: relative;
+  z-index: 10;
+  background: rgba(30, 32, 34, 0.75); /* Dark translucent background */
+  border: 1.5px solid var(--color-dark-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.restaurant-profile-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .restaurant-profile-grid {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.profile-main-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.profile-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.profile-tagline {
+  font-size: 0.9375rem;
+  color: var(--color-dark-text-muted);
+}
+
+/* Quick Metrics Row (Rating, Time, Cost) */
+.profile-metrics-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  font-size: 0.9375rem;
+  margin-top: var(--space-2);
+  color: var(--color-dark-text-muted);
+}
+
+.metric-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.metric-item.rating {
+  color: #F59E0B; /* Gold rating color */
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------------
+   2. Menu Layout (Sidebar & List)
+   ------------------------------------------------------------------------ */
+.menu-section {
+  padding: 40px 0 80px 0;
+}
+
+.menu-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column on mobile */
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .menu-layout-grid {
+    grid-template-columns: 260px 1fr; /* Sidebar + Menu Cards */
+  }
+}
+
+/* Sidebar Categories Nav */
+.menu-sidebar {
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  position: sticky;
+  top: 90px; /* Sits below the header */
+  display: none; /* Hidden on mobile */
+}
+
+@media (min-width: 1024px) {
+  .menu-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+}
+
+.sidebar-category-link {
+  display: block;
+  padding: 10px 14px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  color: var(--color-dark-text-muted);
+  transition: var(--transition-fast);
+}
+
+.sidebar-category-link:hover, .sidebar-category-link.active {
+  background-color: rgba(255, 90, 54, 0.1);
+  color: var(--color-primary);
+}
+
+/* Mobile Category Selector bar */
+.mobile-category-bar {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-4);
+  scrollbar-width: none;
+}
+
+.mobile-category-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-category-btn {
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background-color: var(--color-dark-card);
+  border: 1px solid var(--color-dark-border);
+  color: var(--color-dark-text-muted);
+}
+
+.mobile-category-btn.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-color: var(--color-primary);
+}
+
+@media (min-width: 1024px) {
+  .mobile-category-bar {
+    display: none; /* Hide mobile category toggle on desktop */
+  }
+}
+
+/* ------------------------------------------------------------------------
+   3. Menu Items List & Dish Cards
+   ------------------------------------------------------------------------ */
+.menu-group {
+  margin-bottom: var(--space-8);
+}
+
+.menu-group-title {
+  border-bottom: 1.5px solid var(--color-dark-border);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.dish-card {
+  display: grid;
+  grid-template-columns: 1fr 100px; /* Left text, right image */
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background-color: var(--color-dark-card);
+  border: 1px solid var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+  align-items: center;
+  transition: var(--transition-fast);
+}
+
+.dish-card:hover {
+  border-color: rgba(255, 90, 54, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Dish Info (Left Column) */
+.dish-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.dish-tag-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Veg / Non-Veg Indicator Dots */
+.tag-indicator {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+}
+
+.tag-veg {
+  border-color: #10B981; /* Green border */
+}
+.tag-veg::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: #10B981;
+}
+
+.tag-nonveg {
+  border-color: #EF4444; /* Red border */
+}
+.tag-nonveg::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 8px solid #EF4444; /* Red triangle */
+}
+
+.dish-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-dark-text-main);
+}
+
+.dish-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.dish-description {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--color-dark-text-muted);
+  max-width: 580px;
+}
+
+/* Dish Image & Add Action (Right Column) */
+.dish-media-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dish-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-dark-border);
+}
+
+/* Float additive capsule style add button */
+.dish-add-button-container {
+  position: absolute;
+  bottom: -10px; /* Hangs off the bottom edge of the image container */
+  z-index: 5;
+  width: 80px;
+}
+
+.dish-add-btn {
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary);
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.dish-add-btn:hover {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   GLASSMORPHISM THEME OVERRIDES (Mac-OS / Windows 11 frosted glass style)
+   ========================================================================== */
+.card, 
+.category-card, 
+.restaurant-card, 
+.hero-search-box, 
+.checkout-card, 
+.cart-summary, 
+.order-summary, 
+.profile-card, 
+.modal-content, 
+.popup, 
+.settings-panel, 
+.stats-card, 
+.dashboard-card, 
+.analytics-card,
+.widget,
+.panel,
+.admin-sidebar,
+.owner-sidebar,
+.login-container,
+.register-container,
+.cart-container,
+.tracking-card,
+.queue-card,
+.form-container,
+.table-container,
+.glass-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hover lift and glow */
+.card-interactive:hover,
+.restaurant-card:hover,
+.category-card:hover,
+.dashboard-card:hover,
+.stats-card:hover,
+.widget:hover,
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 50px rgba(255, 90, 54, 0.25), 0 0 15px rgba(255, 90, 54, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Input boxes with glass styling */
+.input-field,
+select,
+textarea,
+.hero-search-box input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: var(--color-dark-text-main) !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.input-field:hover,
+select:hover,
+textarea:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.input-field:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 15px rgba(255, 90, 54, 0.35) !important;
+}

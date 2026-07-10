@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Checkout - FastX</title>
+  <meta name="description" content="Review your order, enter delivery details, select payment, and place your order securely with FastX.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans for Headers, Inter for Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets (Paths use "../" to resolve correctly from the /customer directory) -->
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/checkout.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       1. NAVIGATION BAR
+       ========================================== -->
+  <nav class="navbar" aria-label="Main Navigation">
+    <div class="container navbar-container">
+      
+      <!-- Brand Logo -->
+      <a href="../index.html" class="navbar-logo" id="logo-link">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--color-primary)" stroke="var(--color-primary)"/>
+        </svg>
+        Fast<span>X</span>
+      </a>
+
+      <!-- Navigation Menu -->
+      <div class="navbar-menu">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../index.html#categories" class="nav-link">Categories</a>
+        <a href="../index.html#restaurants" class="nav-link">Popular Restaurants</a>
+        <a href="profile.html" class="nav-link" id="nav-profile-link" style="display: none;">Profile</a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; align-items: center; gap: var(--space-4);">
+        <!-- User Info Slot when Logged In -->
+        <div id="nav-user-info" style="display: none; align-items: center; gap: 8px;">
+          <!-- Avatar + Name -->
+        </div>
+        <!-- Back to Food Button -->
+        <a href="../index.html#restaurants" class="btn btn-secondary">Browse Food</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ==========================================
+       2. CHECKOUT CONTENT SECTION
+       ========================================== -->
+  <main class="checkout-section">
+    <div class="container">
+      
+      <!-- Main checkout grid layout (JS will hide/show sections based on cart state) -->
+      <div id="checkout-grid" class="checkout-container" style="display: none;">
+        
+        <!-- Left: Forms (Address & Payment) -->
+        <form id="checkout-form" class="checkout-form-card" onsubmit="handlePlaceOrder(event)">
+          
+          <!-- Section 1: Delivery Details -->
+          <div>
+            <h2 class="form-section-title">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Delivery Address
+            </h2>
+            
+            <div class="form-row form-row-2">
+              <div class="input-group">
+                <label class="input-label" for="full-name">Full Name</label>
+                <input class="input-field" type="text" id="full-name" required placeholder="Enter your full name">
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="phone-number">Phone Number</label>
+                <input class="input-field" type="tel" id="phone-number" required placeholder="Enter contact number">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label" for="street-address">Street Address / Flat No.</label>
+              <input class="input-field" type="text" id="street-address" required placeholder="e.g. Flat 302, 3rd Floor, Lotus Apartments">
+            </div>
+
+            <div class="form-row form-row-2">
+              <div class="input-group">
+                <label class="input-label" for="area-select">Area (Bengaluru)</label>
+                <select class="input-field" id="area-select" required style="cursor: pointer;">
+                  <option value="" disabled selected>Select your area</option>
+                  <option value="Indiranagar">Indiranagar</option>
+                  <option value="Koramangala">Koramangala</option>
+                  <option value="Jayanagar">Jayanagar</option>
+                  <option value="HSR Layout">HSR Layout</option>
+                  <option value="Whitefield">Whitefield</option>
+                  <option value="Malleshwaram">Malleshwaram</option>
+                  <option value="JP Nagar">JP Nagar</option>
+                  <option value="MG Road">MG Road</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="pincode">Pincode</label>
+                <input class="input-field" type="text" id="pincode" pattern="[0-9]{6}" required placeholder="6-digit Pincode">
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Payment Selection -->
+          <div>
+            <h2 class="form-section-title">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+              Payment Method
+            </h2>
+
+            <div class="payment-selector-grid">
+              
+              <!-- Payment Card 1: UPI -->
+              <label class="payment-card active" id="pay-upi-label">
+                <input type="radio" name="payment-method" value="UPI" checked onclick="togglePaymentFields('UPI')">
+                <span class="payment-icon">📱</span>
+                <span class="font-weight-semibold" style="font-size: 0.9375rem;">UPI / GooglePay</span>
+              </label>
+
+              <!-- Payment Card 2: Credit/Debit -->
+              <label class="payment-card" id="pay-card-label">
+                <input type="radio" name="payment-method" value="CARD" onclick="togglePaymentFields('CARD')">
+                <span class="payment-icon">💳</span>
+                <span class="font-weight-semibold" style="font-size: 0.9375rem;">Credit/Debit Card</span>
+              </label>
+
+              <!-- Payment Card 3: COD -->
+              <label class="payment-card" id="pay-cod-label">
+                <input type="radio" name="payment-method" value="COD" onclick="togglePaymentFields('COD')">
+                <span class="payment-icon">💵</span>
+                <span class="font-weight-semibold" style="font-size: 0.9375rem;">Cash On Delivery</span>
+              </label>
+
+            </div>
+
+            <!-- Conditional Details: UPI Panel -->
+            <div id="upi-details-panel" class="payment-details-panel" style="display: block;">
+              <div class="input-group" style="margin-bottom: 0;">
+                <label class="input-label" for="upi-id">UPI Address</label>
+                <input class="input-field" type="text" id="upi-id" placeholder="e.g. username@okhdfcbank">
+              </div>
+            </div>
+
+            <!-- Conditional Details: Card Panel -->
+            <div id="card-details-panel" class="payment-details-panel">
+              <div class="input-group">
+                <label class="input-label" for="card-number">Card Number</label>
+                <input class="input-field" type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" pattern="[0-9\s]{12,19}">
+              </div>
+              <div class="form-row form-row-2" style="gap: var(--space-4);">
+                <div class="input-group" style="margin-bottom: 0;">
+                  <label class="input-label" for="card-expiry">Expiry Date</label>
+                  <input class="input-field" type="text" id="card-expiry" placeholder="MM/YY">
+                </div>
+                <div class="input-group" style="margin-bottom: 0;">
+                  <label class="input-label" for="card-cvv">CVV</label>
+                  <input class="input-field" type="password" id="card-cvv" placeholder="***" maxlength="3">
+                </div>
+              </div>
+            </div>
+
+            <!-- Conditional Details: COD Panel -->
+            <div id="cod-details-panel" class="payment-details-panel">
+              <p class="text-xs" style="color: var(--color-success); font-weight: 500;">
+                ✓ Safe & Contactless COD option active. Please keep exact change ready during delivery.
+              </p>
+            </div>
+          </div>
+
+        </form>
+
+        <!-- Right: Cart Item Summary sticky card -->
+        <aside class="summary-sticky-card" aria-label="Order items Summary">
+          <div class="summary-restaurant-header">
+            <span class="text-xs" style="color: var(--color-primary); font-weight: 700; text-transform: uppercase;">Ordering From</span>
+            <h2 class="text-xl" id="summary-restaurant-name" style="margin: 2px 0;">Toit</h2>
+          </div>
+
+          <!-- Dynamic item list -->
+          <div id="summary-items" class="summary-items-list">
+            <!-- JavaScript will inject cart_item_row instances here -->
+          </div>
+
+          <!-- Calculations Panel -->
+          <div class="price-breakdown">
+            <div class="breakdown-row">
+              <span>Subtotal</span>
+              <span id="summary-subtotal">$0.00</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Delivery Partner Fee</span>
+              <span id="summary-delivery">$2.00</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Taxes & GST (5%)</span>
+              <span id="summary-taxes">$0.00</span>
+            </div>
+            <div class="breakdown-row grand-total">
+              <span>Grand Total</span>
+              <span id="summary-grandtotal">$0.00</span>
+            </div>
+          </div>
+
+          <!-- Submit Trigger -->
+          <button class="btn btn-primary btn-block" type="submit" form="checkout-form" style="margin-top: var(--space-2);">
+            Place Order
+          </button>
+        </aside>
+
+      </div>
+
+      <!-- Left: Empty Cart state message layout -->
+      <div id="empty-cart-view" class="empty-cart-panel" style="display: none;">
+        <span class="empty-cart-icon">🛒</span>
+        <h2 class="text-2xl">Your cart is empty!</h2>
+        <p class="text-sm">You haven't added any delicious food items to your cart yet. Explore popular restaurants to get started.</p>
+        <a href="../index.html#restaurants" class="btn btn-primary" style="margin-top: var(--space-2);">Browse Restaurants</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       3. MOCK SUCCESS POPUP MODAL
+       ========================================== -->
+  <div id="success-modal-overlay" class="modal-overlay">
+    <div class="success-modal">
+      <div class="modal-success-icon">
+        <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h2 class="text-2xl" style="color: var(--color-dark-text-main);">Order Placed Successfully!</h2>
+      <p class="text-sm">Thank you for ordering with FastX! Your payment was verified, and the kitchen is preparing your fresh meal.</p>
+      
+      <div style="background-color: var(--color-dark-bg); border-radius: var(--radius-md); padding: 12px; width: 100%; border: 1px solid var(--color-dark-border);">
+        <p class="text-xs" style="color: var(--color-dark-text-muted);">Estimated Delivery Time</p>
+        <p class="text-lg font-weight-bold" style="color: var(--color-primary); margin-top: 2px;">25 - 35 Minutes</p>
+      </div>
+
+      <button class="btn btn-primary btn-block" onclick="redirectToHome()">
+        Back to Homepage
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       4. FOOTER SECTION
+       ========================================== -->
+  <footer style="border-top: 1px solid var(--color-dark-border); padding: 40px 0; background-color: var(--color-dark-bg); text-align: center;">
+    <div class="container">
+      <p style="font-size: 0.875rem; color: var(--color-dark-text-muted);">
+        &copy; 2026 FastX Technologies Inc. All rights reserved.
+      </p>
+      <p class="text-xs" style="margin-top: var(--space-2); color: var(--color-dark-text-muted);">
+        Secure checkout layer utilizing sandbox environment integrations.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts: loaded sequentially -->
+  <script src="../js/cart.js"></script>
+  <script src="../js/pages/checkout.js"></script>
+</body>
+</html>

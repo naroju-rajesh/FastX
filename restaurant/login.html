@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Partner Login - FastX</title>
+  <meta name="description" content="Log in to your FastX Merchant account to manage restaurant orders, edit menus, and track earnings.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans for Headers, Inter for Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets (Paths use "../" to resolve correctly from the /restaurant directory) -->
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/auth.css">
+</head>
+<body>
+
+  <main class="auth-section">
+    <!-- Visual background glow card element -->
+    <div class="auth-bg-glow" aria-hidden="true"></div>
+
+    <div class="auth-container">
+      
+      <!-- Brand Logo -->
+      <div class="auth-logo-row">
+        <a href="../index.html" class="navbar-logo" id="logo-link">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--color-primary)" stroke="var(--color-primary)"/>
+          </svg>
+          Fast<span>X</span> Partner
+        </a>
+      </div>
+
+      <!-- Merchant Login card container -->
+      <div class="auth-card">
+        
+        <div class="auth-header">
+          <h1 class="text-2xl">Merchant Portal</h1>
+          <p class="auth-subtitle">Log in to manage your restaurant & incoming orders</p>
+        </div>
+
+        <!-- Form Element -->
+        <form id="owner-login-form" onsubmit="processOwnerLogin(event)">
+          
+          <!-- Email Input -->
+          <div class="input-group">
+            <label class="input-label" for="owner-email">Partner Email</label>
+            <input class="input-field" type="email" id="owner-email" required placeholder="owner@meghanafoods.com" value="owner@meghanafoods.com">
+          </div>
+
+          <!-- Password Input -->
+          <div class="input-group">
+            <label class="input-label" for="owner-password">Password</label>
+            <div class="password-input-wrapper">
+              <input class="input-field" type="password" id="owner-password" required placeholder="••••••••" value="password123">
+              <!-- Password show/hide eyeball toggle button -->
+              <button type="button" class="password-toggle-btn" onclick="togglePassword()" aria-label="Toggle Password Visibility">
+                <svg class="icon icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eyeball-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button class="btn btn-primary btn-block" type="submit" id="submit-btn" style="margin-top: var(--space-4);">
+            Access Dashboard
+          </button>
+
+        </form>
+
+        <!-- Informative disclaimer for testing -->
+        <div style="background-color: rgba(255, 90, 54, 0.05); border: 1px dashed rgba(255, 90, 54, 0.25); border-radius: var(--radius-md); padding: 12px;">
+          <p class="text-xs" style="color: var(--color-primary); text-align: center; font-weight: 500;">
+            🔑 Quick Test: Use default inputs above and click Access.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Toggle Password Visibility
+    function togglePassword() {
+      const input = document.getElementById("owner-password");
+      const icon = document.getElementById("eyeball-icon");
+      if (!input) return;
+
+      const isPass = input.type === "password";
+      input.type = isPass ? "text" : "password";
+
+      if (isPass) {
+        icon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+        `;
+      } else {
+        icon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        `;
+      }
+    }
+
+    // Owner Auth Login process
+    function processOwnerLogin(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById("owner-email").value;
+      const btn = document.getElementById("submit-btn");
+      
+      btn.disabled = true;
+      btn.textContent = "Authenticating...";
+
+      setTimeout(() => {
+        // Save owner session payload
+        const ownerSession = {
+          email: email,
+          name: "Owner - Meghana Foods",
+          restaurantName: "Meghana Foods",
+          loggedIn: true
+        };
+        localStorage.setItem("fastx_owner_user", JSON.stringify(ownerSession));
+        
+        // Redirect to single SPA dashboard
+        window.location.href = "dashboard.html";
+      }, 800);
+    }
+  </script>
+
+</body>
+</html>

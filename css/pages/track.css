@@ -1,0 +1,333 @@
+/*
+ ==========================================================================
+  FASTX LIVE ORDER TRACKING STYLE
+  This stylesheet controls unique layouts for the Order Tracking Page.
+  Pre-requisites: design-system.css and components.css must be loaded first.
+ ==========================================================================
+*/
+
+.tracking-section {
+  padding: 110px 0 80px 0; /* Clear nav height */
+  min-height: 100vh;
+}
+
+.tracking-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .tracking-container {
+    grid-template-columns: 1.2fr 0.8fr; /* Left: Timeline & Map, Right: Summary details */
+  }
+}
+
+/* ------------------------------------------------------------------------
+   1. Left Column: Map & Timeline
+   ------------------------------------------------------------------------ */
+/* Map Mockup container */
+.map-placeholder {
+  position: relative;
+  height: 250px;
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-bottom: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .map-placeholder {
+    height: 350px;
+  }
+}
+
+/* Dark themed SVG road network layout map */
+.map-svg {
+  width: 100%;
+  height: 100%;
+  background-color: #151718;
+}
+
+/* Blinking position pulses */
+.map-pulse {
+  animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  transform-origin: center;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Moving delivery partner marker along SVG path */
+.map-delivery-car {
+  offset-path: path("M 40 280 C 120 280, 120 120, 240 120 S 260 220, 480 220"); /* Matches the road SVG */
+  animation: travel-map 28s linear forwards;
+}
+
+@keyframes travel-map {
+  0% { offset-distance: 0%; }
+  71% { offset-distance: 71%; } /* Stays at restaurant until out for delivery */
+  100% { offset-distance: 100%; } /* Arrives at house */
+}
+
+/* ------------------------------------------------------------------------
+   2. Progress Timeline Component
+   ------------------------------------------------------------------------ */
+.timeline-card {
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 36px;
+  gap: 28px;
+}
+
+/* Timeline Vertical Line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  background-color: var(--color-dark-border);
+  z-index: 1;
+}
+
+/* Glowing active timeline progress line */
+.timeline-progress-bar {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 10px;
+  width: 3px;
+  height: 0%; /* Dynamic height calculated in JS */
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-success) 100%);
+  box-shadow: 0 0 10px rgba(255, 90, 54, 0.4);
+  z-index: 2;
+  transition: height 1s ease-in-out;
+}
+
+/* Timeline Item */
+.timeline-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Indicator dot */
+.timeline-dot {
+  position: absolute;
+  left: -32px;
+  top: 3px;
+  width: 17px;
+  height: 17px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-dark-bg);
+  border: 3px solid var(--color-dark-border);
+  z-index: 10;
+  transition: var(--transition-fast);
+}
+
+/* Animated active state pulse */
+.timeline-item.active .timeline-dot {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  box-shadow: 0 0 0 5px rgba(255, 90, 54, 0.25);
+  animation: pulse-dot 1.5s infinite alternate;
+}
+
+/* Completed Stage indicator */
+.timeline-item.completed .timeline-dot {
+  border-color: var(--color-success);
+  background-color: var(--color-success);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+@keyframes pulse-dot {
+  from { transform: scale(1); box-shadow: 0 0 0 3px rgba(255, 90, 54, 0.2); }
+  to { transform: scale(1.15); box-shadow: 0 0 0 7px rgba(255, 90, 54, 0.35); }
+}
+
+.timeline-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-dark-text-muted);
+  transition: var(--transition-fast);
+}
+
+.timeline-item.active .timeline-title {
+  color: var(--color-primary);
+}
+
+.timeline-item.completed .timeline-title {
+  color: var(--color-dark-text-main);
+}
+
+.timeline-desc {
+  font-size: 0.8125rem;
+  color: var(--color-dark-text-muted);
+}
+
+/* ------------------------------------------------------------------------
+   3. Right Column: Driver profile & summary
+   ------------------------------------------------------------------------ */
+.driver-card {
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.driver-info-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.driver-photo {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-primary);
+  background-color: var(--color-dark-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.driver-rating {
+  font-size: 0.8125rem;
+  color: #F59E0B;
+  font-weight: 700;
+}
+
+/* Info card block lists */
+.detail-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.detail-summary-item {
+  border-top: 1px solid var(--color-dark-border);
+  padding-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--color-dark-text-muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-dark-text-main);
+}
+
+/* ==========================================================================
+   GLASSMORPHISM THEME OVERRIDES (Mac-OS / Windows 11 frosted glass style)
+   ========================================================================== */
+.card, 
+.category-card, 
+.restaurant-card, 
+.hero-search-box, 
+.checkout-card, 
+.cart-summary, 
+.order-summary, 
+.profile-card, 
+.modal-content, 
+.popup, 
+.settings-panel, 
+.stats-card, 
+.dashboard-card, 
+.analytics-card,
+.widget,
+.panel,
+.admin-sidebar,
+.owner-sidebar,
+.login-container,
+.register-container,
+.cart-container,
+.tracking-card,
+.queue-card,
+.form-container,
+.table-container,
+.glass-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hover lift and glow */
+.card-interactive:hover,
+.restaurant-card:hover,
+.category-card:hover,
+.dashboard-card:hover,
+.stats-card:hover,
+.widget:hover,
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 50px rgba(255, 90, 54, 0.25), 0 0 15px rgba(255, 90, 54, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Input boxes with glass styling */
+.input-field,
+select,
+textarea,
+.hero-search-box input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: var(--color-dark-text-main) !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.input-field:hover,
+select:hover,
+textarea:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.input-field:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 15px rgba(255, 90, 54, 0.35) !important;
+}

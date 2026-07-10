@@ -1,0 +1,456 @@
+/*
+ ==========================================================================
+  FASTX RESTAURANT OWNER DASHBOARD STYLE
+  This stylesheet controls layouts for the Owner Login, SPA Dashboard tabs,
+  Kitchen Queue panels, Menu Managers, Analytics bars, and Toast alerts.
+  Pre-requisites: design-system.css and components.css must be loaded first.
+ ==========================================================================
+*/
+
+/* ------------------------------------------------------------------------
+   1. Dashboard Page Structure (Sidebar + Content Grid)
+   ------------------------------------------------------------------------ */
+.dashboard-root {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-dark-bg);
+  font-family: var(--font-family-body);
+  color: var(--color-dark-text-main);
+  overflow-x: hidden;
+}
+
+/* Sidebar Navigation (Desktop) */
+.owner-sidebar {
+  width: 260px;
+  background-color: var(--color-dark-card);
+  border-right: 1.5px solid var(--color-dark-border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  transition: var(--transition-fast);
+}
+
+.sidebar-header {
+  padding: 24px;
+  border-bottom: 1.5px solid var(--color-dark-border);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  flex-grow: 1;
+}
+
+.sidebar-btn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 12px 16px;
+  font-family: var(--font-family-headers);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-dark-text-muted);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-fast);
+}
+
+.sidebar-btn:hover {
+  background-color: rgba(255, 90, 54, 0.05);
+  color: var(--color-primary);
+}
+
+.sidebar-btn.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.sidebar-footer {
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-dark-border);
+}
+
+/* Main Content Panel */
+.dashboard-main {
+  flex-grow: 1;
+  margin-left: 260px; /* Offset sidebar width */
+  padding: var(--space-6);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  transition: var(--transition-fast);
+}
+
+/* Top Dashboard Header */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-dark-border);
+  padding-bottom: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.header-status-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background-color: var(--color-dark-card);
+  border: 1px solid var(--color-dark-border);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+}
+
+/* Responsive Mobile Layout (Toggles Sidebar to bottom nav) */
+@media (max-width: 768px) {
+  .owner-sidebar {
+    width: 100%;
+    height: 60px;
+    top: auto;
+    bottom: 0;
+    border-right: none;
+    border-top: 1.5px solid var(--color-dark-border);
+    flex-direction: row;
+  }
+  .sidebar-header, .sidebar-footer {
+    display: none; /* Hide header & footer details on mobile bar */
+  }
+  .sidebar-menu {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    width: 100%;
+    align-items: center;
+  }
+  .sidebar-btn {
+    padding: var(--space-2);
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.65rem;
+    align-items: center;
+    flex-grow: 1;
+  }
+  .sidebar-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  .dashboard-main {
+    margin-left: 0;
+    padding: var(--space-4) var(--space-4) 80px var(--space-4); /* Add spacing at bottom to clear nav */
+  }
+}
+
+/* ------------------------------------------------------------------------
+   2. Tab Panels Control
+   ------------------------------------------------------------------------ */
+.dashboard-tab-panel {
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+.dashboard-tab-panel.active {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ------------------------------------------------------------------------
+   3. Analytics Grid & Charts
+   ------------------------------------------------------------------------ */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 1024px) {
+  .analytics-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Custom CSS-based Bar Chart Representation */
+.chart-container {
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.chart-bar-list {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 200px;
+  padding-top: var(--space-6);
+  border-bottom: 2px solid var(--color-dark-border);
+  position: relative;
+}
+
+.chart-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 10%;
+}
+
+.chart-bar {
+  width: 100%;
+  max-width: 28px;
+  background: linear-gradient(180deg, var(--color-primary) 0%, rgba(255, 90, 54, 0.4) 100%);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: height 1s ease-in-out;
+  position: relative;
+}
+
+.chart-bar:hover {
+  background: var(--color-primary);
+  cursor: pointer;
+}
+
+/* Value tooltips on bar charts */
+.chart-bar:hover::after {
+  content: attr(data-value);
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FAFAFA;
+  color: #1E2022;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.chart-label {
+  font-size: 0.75rem;
+  color: var(--color-dark-text-muted);
+}
+
+/* ------------------------------------------------------------------------
+   4. Kitchen Queue Cards
+   ------------------------------------------------------------------------ */
+.orders-lane-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .orders-lane-grid {
+    grid-template-columns: 1fr 1fr; /* Split active queue and pending review queue */
+  }
+}
+
+.kitchen-order-card {
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.kitchen-order-card.new-pulse {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px rgba(255, 90, 54, 0.2);
+  animation: border-glow 1.5s infinite alternate;
+}
+
+@keyframes border-glow {
+  from { border-color: var(--color-dark-border); }
+  to { border-color: var(--color-primary); }
+}
+
+.order-items-table {
+  width: 100%;
+  font-size: 0.875rem;
+  border-collapse: collapse;
+}
+
+.order-items-table td {
+  padding: 4px 0;
+}
+
+/* ------------------------------------------------------------------------
+   5. Menu Management grid layout
+   ------------------------------------------------------------------------ */
+.menu-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.menu-list-table {
+  width: 100%;
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  border-collapse: collapse;
+  overflow: hidden;
+  font-size: 0.9375rem;
+}
+
+.menu-list-table th, .menu-list-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1.5px solid var(--color-dark-border);
+}
+
+.menu-list-table th {
+  background-color: rgba(255, 255, 255, 0.02);
+  color: var(--color-dark-text-muted);
+  font-weight: 600;
+}
+
+.menu-list-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ------------------------------------------------------------------------
+   6. Toast System (Simulating alerts)
+   ------------------------------------------------------------------------ */
+.toast-container {
+  position: fixed;
+  bottom: var(--space-8);
+  right: var(--space-8);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  pointer-events: none;
+}
+
+.toast-alert {
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-primary);
+  border-left: 5px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--color-dark-text-main);
+  min-width: 320px;
+  pointer-events: auto;
+  animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: opacity 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================================================
+   GLASSMORPHISM THEME OVERRIDES (Mac-OS / Windows 11 frosted glass style)
+   ========================================================================== */
+.card, 
+.category-card, 
+.restaurant-card, 
+.hero-search-box, 
+.checkout-card, 
+.cart-summary, 
+.order-summary, 
+.profile-card, 
+.modal-content, 
+.popup, 
+.settings-panel, 
+.stats-card, 
+.dashboard-card, 
+.analytics-card,
+.widget,
+.panel,
+.admin-sidebar,
+.owner-sidebar,
+.login-container,
+.register-container,
+.cart-container,
+.tracking-card,
+.queue-card,
+.form-container,
+.table-container,
+.glass-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hover lift and glow */
+.card-interactive:hover,
+.restaurant-card:hover,
+.category-card:hover,
+.dashboard-card:hover,
+.stats-card:hover,
+.widget:hover,
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 50px rgba(255, 90, 54, 0.25), 0 0 15px rgba(255, 90, 54, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Input boxes with glass styling */
+.input-field,
+select,
+textarea,
+.hero-search-box input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: var(--color-dark-text-main) !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.input-field:hover,
+select:hover,
+textarea:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.input-field:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 15px rgba(255, 90, 54, 0.35) !important;
+}

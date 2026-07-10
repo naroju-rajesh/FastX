@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Track Order - FastX</title>
+  <meta name="description" content="Track your food delivery live on FastX with our real-time order status timeline.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans for Headers, Inter for Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/track.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       1. NAVIGATION BAR
+       ========================================== -->
+  <nav class="navbar" aria-label="Main Navigation">
+    <div class="container navbar-container">
+      
+      <!-- Brand Logo -->
+      <a href="../index.html" class="navbar-logo" id="logo-link">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--color-primary)" stroke="var(--color-primary)"/>
+        </svg>
+        Fast<span>X</span>
+      </a>
+
+      <!-- Navigation Menu -->
+      <div class="navbar-menu">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../index.html#categories" class="nav-link">Categories</a>
+        <a href="../index.html#restaurants" class="nav-link">Popular Restaurants</a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; align-items: center; gap: var(--space-4);">
+        <a href="../index.html" class="btn btn-secondary">Back to Home</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ==========================================
+       2. LIVE TRACKING SECTION
+       ========================================== -->
+  <main class="tracking-section">
+    <div class="container tracking-container">
+      
+      <!-- Left Column: ETA, Map Display and Action Call Panel -->
+      <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+        
+        <!-- ETA & Countdown Card -->
+        <div class="card" style="padding: var(--space-6); background-color: var(--color-dark-card);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-3);">
+            <div>
+              <span class="text-xs font-weight-semibold" style="color: var(--color-primary); letter-spacing: 0.5px; text-transform: uppercase;">Estimated Arrival</span>
+              <h1 class="text-3xl" id="eta-timer" style="margin-top: 4px;">25-35 Minutes</h1>
+            </div>
+            <div id="status-badge-container">
+              <span class="badge badge-warning" style="padding: 6px 12px; font-size: 0.8125rem;">Preparing Meal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Premium Dark themed SVG Live Map Mockup -->
+        <div class="map-placeholder" aria-label="Order Delivery Live Map Position">
+          <svg class="map-svg" viewBox="0 0 500 350">
+            <!-- Road Network Lines -->
+            <path d="M 40 280 L 120 280 L 120 120 L 240 120 L 240 220 L 480 220" fill="none" stroke="#2D3135" stroke-width="8" stroke-linecap="round"/>
+            <path d="M 40 280 C 120 280, 120 120, 240 120 S 260 220, 480 220" id="road-path" fill="none" stroke="#FF5A36" stroke-width="4" stroke-opacity="0.3" stroke-linecap="round"/>
+            
+            <path d="M 120 280 L 120 320" fill="none" stroke="#2D3135" stroke-width="6" stroke-linecap="round"/>
+            <path d="M 240 120 L 240 60" fill="none" stroke="#2D3135" stroke-width="6" stroke-linecap="round"/>
+
+            <!-- Grid Helper Details (Blocks/Buildings) -->
+            <rect x="50" y="160" width="50" height="70" rx="4" fill="#1E2022" stroke="#2D3135" stroke-width="1.5"/>
+            <rect x="280" y="80" width="70" height="60" rx="4" fill="#1E2022" stroke="#2D3135" stroke-width="1.5"/>
+            <rect x="380" y="100" width="60" height="80" rx="4" fill="#1E2022" stroke="#2D3135" stroke-width="1.5"/>
+
+            <!-- Location Marker A: Restaurant (Starting Point) -->
+            <g transform="translate(40, 280)">
+              <circle cx="0" cy="0" r="14" fill="#FF5A36" fill-opacity="0.2"/>
+              <circle cx="0" cy="0" r="8" fill="#FF5A36" class="map-pulse"/>
+              <circle cx="0" cy="0" r="5" fill="#FF5A36"/>
+              <text x="12" y="4" fill="#FAFAFA" font-size="10" font-family="Inter" font-weight="700">Kitchen</text>
+            </g>
+
+            <!-- Location Marker B: Customer House (Destination Point) -->
+            <g transform="translate(480, 220)">
+              <circle cx="0" cy="0" r="14" fill="#10B981" fill-opacity="0.2"/>
+              <circle cx="0" cy="0" r="8" fill="#10B981"/>
+              <path d="M -5 -3 L 0 -8 L 5 -3 L 5 4 L -5 4 Z" fill="#10B981"/>
+              <text x="-36" y="-12" fill="#FAFAFA" font-size="10" font-family="Inter" font-weight="700">Your House</text>
+            </g>
+
+            <!-- Moving Delivery Partner Dot -->
+            <g class="map-delivery-car">
+              <circle cx="0" cy="0" r="12" fill="#FAFAFA" fill-opacity="0.15"/>
+              <circle cx="0" cy="0" r="7" fill="#FAFAFA" stroke="#FF5A36" stroke-width="2.5"/>
+              <!-- Inner arrow representation -->
+              <polygon points="-2,-3 3,0 -2,3" fill="#FF5A36" transform="scale(0.8)"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Grid Contact buttons panel -->
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4);">
+          <button class="btn btn-secondary" onclick="mockCall('Delivery Partner')" aria-label="Contact Delivery Partner">
+            💬 Message Driver
+          </button>
+          <button class="btn btn-secondary" onclick="mockCall('Restaurant Kitchen')" aria-label="Call Restaurant">
+            📞 Call Kitchen
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Animated Status Timeline & Details -->
+      <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+        
+        <!-- Dynamic Status Progress timeline card -->
+        <div class="timeline-card">
+          <h2 class="text-xl font-weight-bold" style="color: var(--color-dark-text-main);">Order Timeline</h2>
+          
+          <div class="timeline">
+            <!-- Active progress bar width is animated via JS height toggle -->
+            <div class="timeline-progress-bar" id="timeline-bar"></div>
+
+            <!-- Stage 1 -->
+            <div class="timeline-item completed" id="stage-1">
+              <div class="timeline-dot"></div>
+              <h3 class="timeline-title">Order Confirmed</h3>
+              <p class="timeline-desc">We have received your order successfully.</p>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="timeline-item" id="stage-2">
+              <div class="timeline-dot"></div>
+              <h3 class="timeline-title">Restaurant Accepted</h3>
+              <p class="timeline-desc">The restaurant accepted and is reviewing your order details.</p>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="timeline-item" id="stage-3">
+              <div class="timeline-dot"></div>
+              <h3 class="timeline-title">Food Preparing</h3>
+              <p class="timeline-desc">Gourmet ingredients are being assembled by the chef.</p>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="timeline-item" id="stage-4">
+              <div class="timeline-dot"></div>
+              <h3 class="timeline-title">Out for Delivery</h3>
+              <p class="timeline-desc">Our delivery partner is racing towards your destination.</p>
+            </div>
+
+            <!-- Stage 5 -->
+            <div class="timeline-item" id="stage-5">
+              <div class="timeline-dot"></div>
+              <h3 class="timeline-title">Delivered</h3>
+              <p class="timeline-desc">Your fresh meal has arrived. Enjoy your food!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Partner Information Card -->
+        <div class="driver-card">
+          <h3 class="text-sm font-weight-semibold" style="color: var(--color-dark-text-muted); text-transform: uppercase;">Your Delivery Hero</h3>
+          
+          <div class="driver-info-row">
+            <div class="driver-photo" aria-label="Ramesh Kumar profile avatar">👨🏻‍✈️</div>
+            <div>
+              <h4 class="text-base font-weight-bold" style="color: var(--color-dark-text-main);">Ramesh Kumar</h4>
+              <span class="driver-rating">★ 4.9</span>
+              <p class="text-xs" style="color: var(--color-dark-text-muted); margin-top: 2px;">Honda Activa • KA-03-EX-1294</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order details block summary -->
+        <div class="card" style="background-color: var(--color-dark-card); border-radius: var(--radius-xl); padding: var(--space-6);">
+          <h3 class="text-sm font-weight-semibold" style="color: var(--color-dark-text-muted); text-transform: uppercase; margin-bottom: var(--space-2);">Order Details</h3>
+          
+          <div class="detail-summary-list">
+            <div class="detail-summary-item" style="border-top: none; padding-top: 0;">
+              <span class="detail-label">Order Number</span>
+              <span class="detail-value" id="track-order-id">#FX-8947230</span>
+            </div>
+            <div class="detail-summary-item">
+              <span class="detail-label">Delivery Address</span>
+              <span class="detail-value" id="track-address">Flat 302, Lotus Apts, Koramangala, Bengaluru</span>
+            </div>
+            <div class="detail-summary-item">
+              <span class="detail-label">Payment Status</span>
+              <span class="detail-value" id="track-payment" style="color: var(--color-success); font-weight: 700;">✓ PAID via UPI</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       3. FOOTER SECTION
+       ========================================== -->
+  <footer style="border-top: 1px solid var(--color-dark-border); padding: 40px 0; background-color: var(--color-dark-bg); text-align: center;">
+    <div class="container">
+      <p style="font-size: 0.875rem; color: var(--color-dark-text-muted);">
+        &copy; 2026 FastX Technologies Inc. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Link dynamic state tracking logic -->
+  <script src="../js/pages/tracking.js"></script>
+</body>
+</html>

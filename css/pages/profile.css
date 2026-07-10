@@ -1,0 +1,375 @@
+/*
+ ==========================================================================
+  FASTX CUSTOMER PROFILE STYLE
+  This stylesheet controls layouts for the User Profile, Past Orders,
+  Wallet, Settings, and Edit Profile Modals.
+  Pre-requisites: design-system.css and components.css must be loaded first.
+ ==========================================================================
+*/
+
+.profile-section {
+  padding: 110px 0 80px 0; /* Clear nav height */
+  min-height: 100vh;
+}
+
+.profile-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .profile-container {
+    grid-template-columns: 340px 1fr; /* Left: Quick Profile & Wallet, Right: Orders & tabs */
+  }
+}
+
+/* ------------------------------------------------------------------------
+   1. Left Column Cards (Profile details, Wallet, Saved Info)
+   ------------------------------------------------------------------------ */
+.profile-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Profile Detail Header Box */
+.user-info-card {
+  text-align: center;
+  position: relative;
+}
+
+.avatar-large {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius-full);
+  border: 3px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto var(--space-3) auto;
+  background-color: var(--color-dark-bg);
+}
+
+.user-name-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-dark-text-main);
+  margin-bottom: 2px;
+}
+
+/* Wallet Card UI Only */
+.wallet-card {
+  background: linear-gradient(135deg, var(--color-dark-card) 0%, rgba(255, 90, 54, 0.05) 100%);
+  border: 1.5px solid var(--color-dark-border);
+}
+
+.wallet-balance {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-success);
+  margin-top: 4px;
+}
+
+/* Saved List details */
+.saved-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.saved-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--color-dark-text-muted);
+}
+
+.saved-item.payment-item {
+  align-items: center;
+}
+
+/* ------------------------------------------------------------------------
+   2. Right Column Tabs & Order Cards
+   ------------------------------------------------------------------------ */
+.profile-tabs-header {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1.5px solid var(--color-dark-border);
+  padding-bottom: 0px;
+  margin-bottom: var(--space-6);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.profile-tabs-header::-webkit-scrollbar {
+  display: none;
+}
+
+.profile-tab-btn {
+  background: none;
+  border: none;
+  padding: 12px 20px;
+  font-family: var(--font-family-headers);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-dark-text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.profile-tab-btn:hover {
+  color: var(--color-primary);
+}
+
+.profile-tab-btn.active {
+  color: var(--color-primary);
+}
+
+.profile-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1.5px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+/* Tabs Panel Content */
+.profile-tab-panel {
+  display: none; /* Controlled via JS */
+  animation: fadeIn 0.4s ease-out;
+}
+
+.profile-tab-panel.active {
+  display: block;
+}
+
+/* Order History Cards */
+.order-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.order-history-card {
+  background-color: var(--color-dark-card);
+  border: 1px solid var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: var(--transition-fast);
+}
+
+.order-history-card:hover {
+  border-color: rgba(255, 90, 54, 0.15);
+}
+
+.order-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.order-card-restaurant {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-dark-text-main);
+}
+
+.order-card-date {
+  font-size: 0.8125rem;
+  color: var(--color-dark-text-muted);
+}
+
+.order-card-body {
+  border-top: 1px solid var(--color-dark-border);
+  border-bottom: 1px solid var(--color-dark-border);
+  padding: var(--space-3) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.order-card-items {
+  font-size: 0.875rem;
+  color: var(--color-dark-text-muted);
+}
+
+.order-card-price {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.order-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* Favorites Section Cards */
+.fav-restaurants-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 600px) {
+  .fav-restaurants-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Settings Toggle list */
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-dark-border);
+  padding-bottom: var(--space-3);
+}
+
+/* Simple switch toggle button styling */
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+}
+
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-switch {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--color-dark-border);
+  transition: .3s;
+  border-radius: 34px;
+}
+
+.slider-switch:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #FFFFFF;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider-switch {
+  background-color: var(--color-primary);
+}
+
+input:checked + .slider-switch:before {
+  transform: translateX(22px);
+}
+
+/* ==========================================================================
+   GLASSMORPHISM THEME OVERRIDES (Mac-OS / Windows 11 frosted glass style)
+   ========================================================================== */
+.card, 
+.category-card, 
+.restaurant-card, 
+.hero-search-box, 
+.checkout-card, 
+.cart-summary, 
+.order-summary, 
+.profile-card, 
+.modal-content, 
+.popup, 
+.settings-panel, 
+.stats-card, 
+.dashboard-card, 
+.analytics-card,
+.widget,
+.panel,
+.admin-sidebar,
+.owner-sidebar,
+.login-container,
+.register-container,
+.cart-container,
+.tracking-card,
+.queue-card,
+.form-container,
+.table-container,
+.glass-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hover lift and glow */
+.card-interactive:hover,
+.restaurant-card:hover,
+.category-card:hover,
+.dashboard-card:hover,
+.stats-card:hover,
+.widget:hover,
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 50px rgba(255, 90, 54, 0.25), 0 0 15px rgba(255, 90, 54, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Input boxes with glass styling */
+.input-field,
+select,
+textarea,
+.hero-search-box input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: var(--color-dark-text-main) !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.input-field:hover,
+select:hover,
+textarea:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.input-field:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 15px rgba(255, 90, 54, 0.35) !important;
+}

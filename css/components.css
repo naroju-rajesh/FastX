@@ -1,0 +1,542 @@
+/*
+ ==========================================================================
+  FASTX COMPONENTS
+  This stylesheet contains styling for buttons, input fields, cards,
+  navigation systems, badges, and icon wrappers.
+  Pre-requisite: design-system.css must be loaded before this file.
+ ==========================================================================
+*/
+
+/* ------------------------------------------------------------------------
+   1. Interactive Buttons
+   ------------------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 12px 24px;
+  font-family: var(--font-family-body);
+  font-size: 0.875rem; /* 14px */
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition-fast);
+  user-select: none;
+}
+
+/* Primary Accent Coral Button */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Secondary Charcoal Card Button */
+.btn-secondary {
+  background-color: var(--color-dark-card);
+  color: var(--color-dark-text-main);
+  border: 1.5px solid var(--color-dark-border);
+}
+.btn-secondary:hover {
+  background-color: var(--color-dark-border);
+  color: #FFFFFF;
+}
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+/* Outline Coral Button */
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+.btn-outline:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* Full Width Button Modifier */
+.btn-block {
+  display: flex;
+  width: 100%;
+}
+
+/* Disabled Button State */
+.btn:disabled, .btn-disabled {
+  background-color: #374151 !important; /* Muted gray for dark mode */
+  color: #6B7280 !important;
+  border-color: transparent !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* ------------------------------------------------------------------------
+   2. Input Form Fields
+   ------------------------------------------------------------------------ */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  width: 100%;
+}
+
+.input-label {
+  font-family: var(--font-family-body);
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+  color: var(--color-dark-text-muted);
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: var(--font-family-body);
+  font-size: 1rem; /* 16px */
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-md);
+  color: var(--color-dark-text-main);
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.input-field option {
+  background-color: #1e2022 !important;
+  color: #fafafa !important;
+}
+
+.input-field option:disabled {
+  color: #6b7280 !important;
+}
+
+/* Form Hover and Focus Actions */
+.input-field:hover {
+  border-color: var(--color-dark-text-muted);
+}
+
+.input-field:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 90, 54, 0.15); /* Soft Coral Aura */
+  background-color: rgba(30, 32, 34, 0.5);
+}
+
+/* Error States */
+.input-field.input-error {
+  border-color: var(--color-danger);
+}
+.input-error-msg {
+  font-size: 0.75rem; /* 12px */
+  color: var(--color-danger);
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------------------------
+   3. Card Components
+   ------------------------------------------------------------------------ */
+.card {
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-fast);
+}
+
+/* Interactive Cards (e.g. Restaurants, Food menu selections) */
+.card-interactive {
+  cursor: pointer;
+}
+.card-interactive:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.3);
+}
+
+/* ------------------------------------------------------------------------
+   4. Navigation Bar
+   ------------------------------------------------------------------------ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: rgba(15, 16, 17, 0.85); /* Frosty Obsidian Background */
+  backdrop-filter: blur(12px); /* Glassmorphism blur */
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-dark-border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  transition: var(--transition-fast);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar-logo {
+  font-family: var(--font-family-headers);
+  font-size: 1.5rem; /* 24px */
+  font-weight: 800;
+  color: var(--color-dark-text-main);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.navbar-logo span {
+  color: var(--color-primary);
+}
+
+.navbar-menu {
+  display: none; /* Mobile first hidden */
+  align-items: center;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .navbar-menu {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-username {
+    display: none;
+  }
+}
+
+.nav-link {
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 500;
+  color: var(--color-dark-text-muted);
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--color-primary);
+}
+
+/* ------------------------------------------------------------------------
+   5. Icons and Indicators
+   ------------------------------------------------------------------------ */
+/* Native SVG Icon Box sizing */
+.icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+}
+
+.icon-sm { width: 16px; height: 16px; }
+.icon-lg { width: 32px; height: 32px; }
+
+/* Status Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  font-size: 0.75rem; /* 12px */
+  font-weight: 600;
+  border-radius: var(--radius-full);
+}
+
+.badge-success {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: var(--color-success);
+}
+
+.badge-warning {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: var(--color-warning);
+}
+
+.badge-danger {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: var(--color-danger);
+}
+
+/* ------------------------------------------------------------------------
+   6. Premium Global Glassmorphism Themes
+   ------------------------------------------------------------------------ */
+
+/* Global Glass overrides for Cards, Forms, Modals, Tables, Panels */
+.card, 
+.category-card, 
+.restaurant-card, 
+.hero-search-box, 
+.checkout-card, 
+.cart-summary, 
+.order-summary, 
+.profile-card, 
+.modal-content, 
+.popup, 
+.settings-panel, 
+.stats-card, 
+.dashboard-card, 
+.analytics-card,
+.widget,
+.panel,
+.admin-sidebar,
+.owner-sidebar {
+  background: rgba(30, 32, 34, 0.70) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+
+/* Hover and lift effects on interactive components */
+.card-interactive:hover,
+.restaurant-card:hover,
+.category-card:hover,
+.dashboard-card:hover,
+.stats-card:hover,
+.widget:hover,
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.025) !important;
+  border-color: rgba(255, 90, 54, 0.45) !important;
+  background: rgba(35, 38, 40, 0.85) !important;
+  box-shadow: 0 20px 50px rgba(255, 90, 54, 0.18), 0 0 20px rgba(255, 90, 54, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Premium Food & Restaurant Card Zoom & Badges */
+.restaurant-card .restaurant-img-wrapper img,
+.restaurant-card .restaurant-img-wrapper .lazy-load-img {
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+.restaurant-card:hover .restaurant-img-wrapper img,
+.restaurant-card:hover .restaurant-img-wrapper .lazy-load-img {
+  transform: scale(1.08) !important;
+}
+.restaurant-rating {
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1.5px solid rgba(245, 158, 11, 0.4) !important;
+  color: #F59E0B !important;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.2) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 2px 6px !important;
+  font-weight: 700 !important;
+}
+
+/* Glass input fields styling */
+.input-field,
+select,
+textarea {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--color-dark-text-main) !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.input-field:hover,
+select:hover,
+textarea:hover {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.input-field:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 15px rgba(255, 90, 54, 0.3) !important;
+}
+
+/* Glass styling for tables */
+table {
+  border-collapse: collapse !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: var(--color-dark-text-main) !important;
+  font-weight: 600 !important;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  color: var(--color-dark-text-muted) !important;
+  background: transparent !important;
+}
+
+tr:hover td {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--color-dark-text-main) !important;
+}
+
+/* Modals & Popups Glass Overlay backdrop styling */
+.modal,
+.popup-overlay {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  background-color: rgba(15, 16, 17, 0.6) !important;
+}
+
+/* Hero Content Fade-Up Entrance Animations */
+.hero-text h1 {
+  animation: fade-up-hero 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+.hero-text p {
+  animation: fade-up-hero 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  opacity: 0;
+}
+.hero-search-box {
+  animation: fade-up-hero 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  opacity: 0;
+}
+@keyframes fade-up-hero {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Premium Page Transitions (Soft Ease Scale Entry) */
+body {
+  animation: page-fade-in 0.5s ease-out;
+}
+@keyframes page-fade-in {
+  0% { opacity: 0; transform: scale(0.99); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Scrollbar styling for premium look */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 16, 17, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 90, 54, 0.4);
+}
+
+
+
+/* ==========================================================================
+   GLASSMORPHISM THEME OVERRIDES (Mac-OS / Windows 11 frosted glass style)
+   ========================================================================== */
+.card, 
+.category-card, 
+.restaurant-card, 
+.hero-search-box, 
+.checkout-card, 
+.cart-summary, 
+.order-summary, 
+.profile-card, 
+.modal-content, 
+.popup, 
+.settings-panel, 
+.stats-card, 
+.dashboard-card, 
+.analytics-card,
+.widget,
+.panel,
+.admin-sidebar,
+.owner-sidebar,
+.login-container,
+.register-container,
+.cart-container,
+.tracking-card,
+.queue-card,
+.form-container,
+.table-container,
+.glass-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hover lift and glow */
+.card-interactive:hover,
+.restaurant-card:hover,
+.category-card:hover,
+.dashboard-card:hover,
+.stats-card:hover,
+.widget:hover,
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 50px rgba(255, 90, 54, 0.25), 0 0 15px rgba(255, 90, 54, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Input boxes with glass styling */
+.input-field,
+select,
+textarea,
+.hero-search-box input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: var(--color-dark-text-main) !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.input-field:hover,
+select:hover,
+textarea:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.input-field:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 15px rgba(255, 90, 54, 0.35) !important;
+}

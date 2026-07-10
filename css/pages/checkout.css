@@ -1,0 +1,374 @@
+/*
+ ==========================================================================
+  FASTX CHECKOUT SCREEN STYLING
+  This stylesheet controls unique layouts for the Cart and Checkout Page.
+  Pre-requisites: design-system.css and components.css must be loaded first.
+ ==========================================================================
+*/
+
+.checkout-section {
+  padding: 110px 0 80px 0; /* Clear nav height */
+  min-height: 100vh;
+}
+
+.checkout-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .checkout-container {
+    grid-template-columns: 1.2fr 0.8fr; /* Form gets more space, summary is sticky on right */
+  }
+}
+
+/* ------------------------------------------------------------------------
+   1. Left Column: Checkout Forms
+   ------------------------------------------------------------------------ */
+.checkout-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.form-section-title {
+  border-bottom: 1.5px solid var(--color-dark-border);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-size: 1.25rem;
+  color: var(--color-dark-text-main);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Form Row Grid */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 600px) {
+  .form-row-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Payment Selector Card Buttons */
+.payment-selector-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 600px) {
+  .payment-selector-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.payment-card {
+  position: relative;
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition-fast);
+}
+
+.payment-card input[type="radio"] {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  accent-color: var(--color-primary);
+}
+
+.payment-card:hover {
+  border-color: rgba(255, 90, 54, 0.3);
+}
+
+.payment-card.active {
+  border-color: var(--color-primary);
+  background-color: rgba(255, 90, 54, 0.04);
+}
+
+.payment-icon {
+  font-size: 1.5rem;
+}
+
+/* Conditional input fields for payments */
+.payment-details-panel {
+  display: none; /* Controlled via JS */
+  background-color: rgba(30, 32, 34, 0.4);
+  border: 1px dashed var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-top: var(--space-2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ------------------------------------------------------------------------
+   2. Right Column: Cart Summary Card
+   ------------------------------------------------------------------------ */
+.summary-sticky-card {
+  position: sticky;
+  top: 90px; /* Sticks beneath navbar */
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.summary-restaurant-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: 1px solid var(--color-dark-border);
+  padding-bottom: var(--space-3);
+}
+
+/* Scrollable Cart Items Panel */
+.summary-items-list {
+  max-height: 250px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-right: 4px;
+}
+
+/* Custom Scrollbar for summary list */
+.summary-items-list::-webkit-scrollbar {
+  width: 4px;
+}
+.summary-items-list::-webkit-scrollbar-thumb {
+  background-color: var(--color-dark-border);
+  border-radius: var(--radius-full);
+}
+
+/* Cart Item Item Card */
+.cart-item-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: var(--space-3);
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  padding-bottom: var(--space-3);
+}
+
+.cart-item-img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-dark-border);
+}
+
+.cart-item-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cart-item-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+/* Total Price Breakdown List */
+.price-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border-top: 1px solid var(--color-dark-border);
+  padding-top: var(--space-4);
+  font-size: 0.9375rem;
+}
+
+.breakdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-dark-text-muted);
+}
+
+.breakdown-row.grand-total {
+  border-top: 1.5px dashed var(--color-dark-border);
+  padding-top: var(--space-3);
+  margin-top: var(--space-2);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-dark-text-main);
+}
+
+/* ------------------------------------------------------------------------
+   3. Empty Cart State Visual Panel
+   ------------------------------------------------------------------------ */
+.empty-cart-panel {
+  text-align: center;
+  padding: 60px var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 400px;
+  margin: 0 auto;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.empty-cart-icon {
+  font-size: 4rem;
+}
+
+/* ------------------------------------------------------------------------
+   4. Mock Order Success Modal
+   ------------------------------------------------------------------------ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: none; /* Managed via JS */
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.success-modal {
+  background-color: var(--color-dark-card);
+  border: 1.5px solid var(--color-dark-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-6);
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+  animation: zoomIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  background-color: rgba(16, 185, 129, 0.15);
+  color: var(--color-success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==========================================================================
+   GLASSMORPHISM THEME OVERRIDES (Mac-OS / Windows 11 frosted glass style)
+   ========================================================================== */
+.card, 
+.category-card, 
+.restaurant-card, 
+.hero-search-box, 
+.checkout-card, 
+.cart-summary, 
+.order-summary, 
+.profile-card, 
+.modal-content, 
+.popup, 
+.settings-panel, 
+.stats-card, 
+.dashboard-card, 
+.analytics-card,
+.widget,
+.panel,
+.admin-sidebar,
+.owner-sidebar,
+.login-container,
+.register-container,
+.cart-container,
+.tracking-card,
+.queue-card,
+.form-container,
+.table-container,
+.glass-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hover lift and glow */
+.card-interactive:hover,
+.restaurant-card:hover,
+.category-card:hover,
+.dashboard-card:hover,
+.stats-card:hover,
+.widget:hover,
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 50px rgba(255, 90, 54, 0.25), 0 0 15px rgba(255, 90, 54, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Input boxes with glass styling */
+.input-field,
+select,
+textarea,
+.hero-search-box input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: var(--color-dark-text-main) !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.input-field:hover,
+select:hover,
+textarea:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.input-field:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 15px rgba(255, 90, 54, 0.35) !important;
+}

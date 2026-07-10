@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>My Profile - FastX</title>
+  <meta name="description" content="Manage your FastX profile, wallet, reward points, addresses, and order history in one secure place.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans for Headers, Inter for Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/profile.css">
+  <link rel="stylesheet" href="../css/pages/checkout.css"> <!-- Reusing modal classes -->
+</head>
+<body>
+
+  <!-- ==========================================
+       1. NAVIGATION BAR
+       ========================================== -->
+  <nav class="navbar" aria-label="Main Navigation">
+    <div class="container navbar-container">
+      
+      <!-- Brand Logo -->
+      <a href="../index.html" class="navbar-logo" id="logo-link">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--color-primary)" stroke="var(--color-primary)"/>
+        </svg>
+        Fast<span>X</span>
+      </a>
+
+      <!-- Navigation Menu -->
+      <div class="navbar-menu">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../index.html#categories" class="nav-link">Categories</a>
+        <a href="../index.html#restaurants" class="nav-link">Popular Restaurants</a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; align-items: center; gap: var(--space-4);">
+        <!-- Navigation bar user status -->
+        <div id="nav-user-profile" style="display: flex; align-items: center; gap: 8px;">
+          <!-- Will be populated dynamically by script -->
+        </div>
+        <button class="btn btn-secondary" onclick="processLogout()" aria-label="Log Out from Account">Log Out</button>
+        <a href="../index.html" class="btn btn-primary">Order Food</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ==========================================
+       2. PROFILE SUMMARY SECTION
+       ========================================== -->
+  <main class="profile-section">
+    <div class="container profile-container">
+      
+      <!-- Left Column: User Profile header card, Wallet Balance & Rewards -->
+      <div class="profile-card-left">
+        
+        <!-- User Info Header Card -->
+        <div class="card user-info-card">
+          <div style="position: relative; display: inline-block; margin: 0 auto var(--space-3) auto;">
+            <div class="avatar-large" id="profile-avatar" style="overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 3px solid var(--color-primary);">👨🏻</div>
+            <button onclick="openEditModal()" style="position: absolute; bottom: 0; right: 0; background: var(--color-primary); border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+              ✏️
+            </button>
+          </div>
+          <h1 class="user-name-title" id="profile-name">Guest User</h1>
+          
+          <div style="margin-top: 8px;">
+            <span class="badge" id="membership-badge" style="font-size: 0.75rem; padding: 4px 10px; font-weight: 700; text-transform: uppercase;">Silver Member</span>
+          </div>
+          
+          <div style="margin-top: 12px; font-size: 0.75rem; color: var(--color-dark-text-muted);" id="joined-date-display">
+            Joined: July 2026
+          </div>
+          
+          <button class="btn btn-secondary btn-block" onclick="openEditModal()" style="margin-top: var(--space-4); padding: 8px 16px;">
+            Edit Profile
+          </button>
+        </div>
+
+        <!-- Wallet & Rewards Card -->
+        <div class="card wallet-card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted); text-transform: uppercase;">FastX Wallet</span>
+            <span class="badge badge-success" style="font-size: 0.65rem;">Active</span>
+          </div>
+          <div class="wallet-balance" id="wallet-amount">₹450.00</div>
+          
+          <div style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted); text-transform: uppercase;">Reward Points</span>
+            <span class="font-weight-bold" id="reward-points-amount" style="color: var(--color-primary); font-size: 1.1rem;">120 pts</span>
+          </div>
+          
+          <button class="btn btn-outline btn-block" onclick="mockTopUp()" style="margin-top: var(--space-4); padding: 6px 12px; font-size: 0.75rem;">
+            + Add Money
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Navigation Tabs & Detail Panels -->
+      <div>
+        
+        <!-- Tabs Header Buttons -->
+        <div class="profile-tabs-header" role="tablist">
+          <button class="profile-tab-btn active" onclick="switchTab('personal')" id="tab-personal" role="tab">Personal Info</button>
+          <button class="profile-tab-btn" onclick="switchTab('orders')" id="tab-orders" role="tab">My Orders</button>
+          <button class="profile-tab-btn" onclick="switchTab('favorites')" id="tab-favorites" role="tab">Favorites</button>
+          <button class="profile-tab-btn" onclick="switchTab('addresses')" id="tab-addresses" role="tab">Saved Addresses</button>
+          <button class="profile-tab-btn" onclick="switchTab('payments')" id="tab-payments" role="tab">Payment Methods</button>
+          <button class="profile-tab-btn" onclick="switchTab('notifications')" id="tab-notifications" role="tab">Notifications</button>
+          <button class="profile-tab-btn" onclick="switchTab('settings')" id="tab-settings" role="tab">Settings</button>
+          <button class="profile-tab-btn" onclick="switchTab('help')" id="tab-help" role="tab">Help & Support</button>
+          <button class="profile-tab-btn" onclick="processLogout()" style="color: var(--color-danger);" role="tab">Logout</button>
+        </div>
+
+        <!-- Tab Panel: Personal Information -->
+        <section class="profile-tab-panel active" id="panel-personal" aria-label="Personal Information panel">
+          <div class="card" style="padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);">
+            <h3 class="text-xl font-weight-bold" style="color: var(--color-dark-text-main);">Personal Information</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+              <div>
+                <p class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted); text-transform: uppercase;">Full Name</p>
+                <p class="text-base" id="info-name" style="color: var(--color-dark-text-main); font-weight: 500; margin-top: 2px;">Guest User</p>
+              </div>
+              <div>
+                <p class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted); text-transform: uppercase;">Email Address</p>
+                <p class="text-base" id="info-email" style="color: var(--color-dark-text-main); font-weight: 500; margin-top: 2px;">guest@fastx.com</p>
+              </div>
+              <div>
+                <p class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted); text-transform: uppercase;">Mobile Number</p>
+                <p class="text-base" id="info-phone" style="color: var(--color-dark-text-main); font-weight: 500; margin-top: 2px;">+91 98765 43210</p>
+              </div>
+              <div>
+                <p class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted); text-transform: uppercase;">Membership Status</p>
+                <p class="text-base" id="info-membership" style="color: var(--color-primary); font-weight: 700; margin-top: 2px; text-transform: uppercase;">Silver Member</p>
+              </div>
+            </div>
+            
+            <div style="border-top: 1px solid var(--color-dark-border); padding-top: var(--space-4);">
+              <p class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted); text-transform: uppercase;">Default Delivery Address</p>
+              <p class="text-base" id="info-address" style="color: var(--color-dark-text-main); font-weight: 500; margin-top: 4px; line-height: 1.5;">Flat 302, Lotus Apts, Koramangala, Bengaluru</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab Panel: Order History -->
+        <section class="profile-tab-panel" id="panel-orders" aria-label="Order History panel">
+          <div class="order-history-list" id="orders-history-container">
+            <!-- Dynamic past order cards injected here -->
+          </div>
+        </section>
+
+        <!-- Tab Panel: Favorites -->
+        <section class="profile-tab-panel" id="panel-favorites" aria-label="Favorite Restaurants panel">
+          <div class="fav-restaurants-grid" id="favorites-container">
+            <!-- Dynamic favorites will render here -->
+          </div>
+        </section>
+
+        <!-- Tab Panel: Saved Addresses -->
+        <section class="profile-tab-panel" id="panel-addresses" aria-label="Saved Addresses panel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3 class="text-xl font-weight-bold" style="margin-bottom: var(--space-4); color: var(--color-dark-text-main);">Saved Addresses</h3>
+            
+            <div class="saved-list" id="addresses-container">
+              <div class="saved-item" style="padding: var(--space-3); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); border: 1px solid var(--color-dark-border);">
+                <span>🏠</span>
+                <div style="flex-grow: 1;">
+                  <p class="font-weight-bold" style="color: var(--color-dark-text-main);">Home (Default)</p>
+                  <p class="text-xs" id="address-home-text">Flat 302, Lotus Apts, Koramangala, Bengaluru</p>
+                </div>
+              </div>
+              <div class="saved-item" style="padding: var(--space-3); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); border: 1px solid var(--color-dark-border);">
+                <span>💼</span>
+                <div style="flex-grow: 1;">
+                  <p class="font-weight-bold" style="color: var(--color-dark-text-main);">Work</p>
+                  <p class="text-xs">Sigma Tech Park, Phase 2, Whitefield, Bengaluru</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab Panel: Payment Methods -->
+        <section class="profile-tab-panel" id="panel-payments" aria-label="Payment Methods panel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3 class="text-xl font-weight-bold" style="margin-bottom: var(--space-4); color: var(--color-dark-text-main);">Saved Payment Options</h3>
+            
+            <div class="saved-list">
+              <div class="saved-item payment-item" style="padding: var(--space-3); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); border: 1px solid var(--color-dark-border);">
+                <span style="font-size: 1.5rem; margin-right: 8px;">💳</span>
+                <div style="flex-grow: 1;">
+                  <p class="font-weight-bold" style="color: var(--color-dark-text-main); font-size: 0.9375rem;">HDFC Debit Card</p>
+                  <p class="text-xs">**** **** 4829</p>
+                </div>
+                <span class="badge badge-success" style="font-size: 0.65rem;">Primary</span>
+              </div>
+              <div class="saved-item payment-item" style="padding: var(--space-3); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); border: 1px solid var(--color-dark-border);">
+                <span style="font-size: 1.5rem; margin-right: 8px;">📱</span>
+                <div style="flex-grow: 1;">
+                  <p class="font-weight-bold" style="color: var(--color-dark-text-main); font-size: 0.9375rem;">Google Pay UPI</p>
+                  <p class="text-xs">username@okhdfcbank</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab Panel: Notifications -->
+        <section class="profile-tab-panel" id="panel-notifications" aria-label="Notifications panel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3 class="text-xl font-weight-bold" style="margin-bottom: var(--space-4); color: var(--color-dark-text-main);">Notification Preferences</h3>
+            
+            <div class="settings-list">
+              <div class="settings-row">
+                <div>
+                  <p class="font-weight-semibold" style="color: var(--color-dark-text-main);">Email Receipts</p>
+                  <p class="text-xs" style="color: var(--color-dark-text-muted);">Receive order summaries and PDF invoices in inbox</p>
+                </div>
+                <label class="switch-toggle">
+                  <input type="checkbox" checked onclick="toggleSetting('email')">
+                  <span class="slider-switch"></span>
+                </label>
+              </div>
+              <div class="settings-row">
+                <div>
+                  <p class="font-weight-semibold" style="color: var(--color-dark-text-main);">SMS Delivery Status</p>
+                  <p class="text-xs" style="color: var(--color-dark-text-muted);">Get automated SMS updates from dispatch and drivers</p>
+                </div>
+                <label class="switch-toggle">
+                  <input type="checkbox" checked onclick="toggleSetting('sms')">
+                  <span class="slider-switch"></span>
+                </label>
+              </div>
+              <div class="settings-row">
+                <div>
+                  <p class="font-weight-semibold" style="color: var(--color-dark-text-main);">Marketing Campaigns</p>
+                  <p class="text-xs" style="color: var(--color-dark-text-muted);">Stay informed about weekly coupons and local discounts</p>
+                </div>
+                <label class="switch-toggle">
+                  <input type="checkbox" onclick="toggleSetting('marketing')">
+                  <span class="slider-switch"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab Panel: Settings -->
+        <section class="profile-tab-panel" id="panel-settings" aria-label="Account Settings panel">
+          <div class="card" style="padding: var(--space-6);">
+            <h3 class="text-lg font-weight-bold" style="margin-bottom: var(--space-4); color: var(--color-dark-text-main);">General Settings</h3>
+            
+            <div class="settings-list">
+              <div class="settings-row">
+                <div>
+                  <p class="font-weight-semibold" style="color: var(--color-dark-text-main);">Dark Mode Theme</p>
+                  <p class="text-xs" style="color: var(--color-dark-text-muted);">Enable visual obsidian dark layout rules</p>
+                </div>
+                <label class="switch-toggle">
+                  <input type="checkbox" checked disabled>
+                  <span class="slider-switch"></span>
+                </label>
+              </div>
+              <div class="settings-row">
+                <div>
+                  <p class="font-weight-semibold" style="color: var(--color-dark-text-main);">FastX AI Recommendations</p>
+                  <p class="text-xs" style="color: var(--color-dark-text-muted);">Allow AI to curate food based on order histories</p>
+                </div>
+                <label class="switch-toggle">
+                  <input type="checkbox" checked onclick="toggleSetting('ai')">
+                  <span class="slider-switch"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab Panel: Help & Support -->
+        <section class="profile-tab-panel" id="panel-help" aria-label="Help & Support panel">
+          <div class="card" style="padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);">
+            <h3 class="text-xl font-weight-bold" style="color: var(--color-dark-text-main);">Help & Support</h3>
+            <p class="text-sm">Need assistance with a recent order, payment, or delivery? Our team is active 24/7 to resolve issues.</p>
+            
+            <div style="border-top: 1px solid var(--color-dark-border); padding-top: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: var(--radius-md);">
+                <span class="font-weight-semibold">📞 Customer Helpline</span>
+                <a href="tel:+919876543210" style="color: var(--color-primary); font-weight: 700; text-decoration: none;">+91 98765 43210</a>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: var(--radius-md);">
+                <span class="font-weight-semibold">📧 Email Support</span>
+                <a href="mailto:support@fastx.com" style="color: var(--color-primary); font-weight: 700; text-decoration: none;">support@fastx.com</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       3. EDIT PROFILE DIALOG MODAL
+       ========================================== -->
+  <div id="edit-modal-overlay" class="modal-overlay" aria-modal="true" role="dialog" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
+    <div class="success-modal" style="max-width: 480px; text-align: left; align-items: stretch; padding: var(--space-6); background: rgba(30, 30, 30, 0.95); border-radius: 24px; border: 1px solid rgba(255,255,255,0.15);">
+      
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3);">
+        <h2 class="text-2xl" style="color: var(--color-dark-text-main); margin: 0; font-weight: 800;">Edit Profile</h2>
+        <button onclick="closeEditModal()" style="background: none; border: none; color: var(--color-dark-text-muted); font-size: 1.25rem; cursor: pointer;">✕</button>
+      </div>
+      
+      <!-- Edit Profile form -->
+      <form id="edit-profile-form" onsubmit="saveProfileChanges(event)" style="display: flex; flex-direction: column; gap: var(--space-4);">
+        
+        <!-- Avatar Preview and Upload -->
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: var(--space-2);">
+          <div class="avatar-large" id="edit-avatar-preview" style="margin: 0; width: 64px; height: 64px; font-size: 1.8rem; overflow: hidden; display: flex; align-items: center; justify-content: center;">👨🏻</div>
+          <div>
+            <label class="input-label" style="margin-bottom: 4px;">Profile Picture</label>
+            <input type="file" id="edit-avatar-file" accept="image/*" style="display: none;" onchange="handleAvatarFileChange(event)">
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('edit-avatar-file').click()" style="padding: 6px 12px; font-size: 0.75rem;">
+              Upload Image
+            </button>
+            <input type="hidden" id="edit-avatar-base64">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="edit-name">Full Name</label>
+          <input class="input-field" type="text" id="edit-name" required placeholder="Enter full name">
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label" for="edit-email">Email Address</label>
+          <input class="input-field" type="email" id="edit-email" required placeholder="name@domain.com">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="edit-phone">Phone Number</label>
+          <input class="input-field" type="tel" id="edit-phone" required placeholder="Enter phone number">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="edit-address">Delivery Address</label>
+          <textarea class="input-field" id="edit-address" required rows="2" placeholder="Enter delivery address" style="resize: none; font-family: inherit; font-size: 0.875rem; padding: var(--space-2);"></textarea>
+        </div>
+
+        <div style="display: flex; gap: var(--space-4); margin-top: var(--space-2);">
+          <button class="btn btn-secondary" type="button" onclick="closeEditModal()" style="flex: 1;">Cancel</button>
+          <button class="btn btn-primary" type="submit" style="flex: 1;">Save Changes</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       4. FOOTER SECTION
+       ========================================== -->
+  <footer style="border-top: 1px solid var(--color-dark-border); padding: 40px 0; background-color: var(--color-dark-bg); text-align: center;">
+    <div class="container">
+      <p style="font-size: 0.875rem; color: var(--color-dark-text-muted);">
+        &copy; 2026 FastX Technologies Inc. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts loaded sequentially -->
+  <script src="../js/pages/profile.js"></script>
+</body>
+</html>

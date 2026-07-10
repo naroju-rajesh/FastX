@@ -1,0 +1,326 @@
+/*
+ ==========================================================================
+  FASTX ADMIN CONTROL PANEL DASHBOARD STYLE
+  This stylesheet controls layouts for the Admin Login, SPA Dashboard tabs,
+  Data management tables, SVG growth charts, and platform settings.
+  Pre-requisites: design-system.css and components.css must be loaded first.
+ ==========================================================================
+*/
+
+/* ------------------------------------------------------------------------
+   1. Page Layout Structure (Left Sidebar + Right Main)
+   ------------------------------------------------------------------------ */
+.admin-root {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-dark-bg);
+  font-family: var(--font-family-body);
+  color: var(--color-dark-text-main);
+  overflow-x: hidden;
+}
+
+/* Admin Sidebar Layout */
+.admin-sidebar {
+  width: 260px;
+  background-color: var(--color-dark-card);
+  border-right: 1.5px solid var(--color-dark-border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  transition: var(--transition-fast);
+}
+
+.admin-sidebar-header {
+  padding: 24px;
+  border-bottom: 1.5px solid var(--color-dark-border);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.admin-sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* Custom mini scrollbar for sidebar menu */
+.admin-sidebar-menu::-webkit-scrollbar {
+  width: 3px;
+}
+.admin-sidebar-menu::-webkit-scrollbar-thumb {
+  background-color: var(--color-dark-border);
+  border-radius: var(--radius-full);
+}
+
+.admin-sidebar-btn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px 14px;
+  font-family: var(--font-family-headers);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-dark-text-muted);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-fast);
+}
+
+.admin-sidebar-btn:hover {
+  background-color: rgba(255, 90, 54, 0.05);
+  color: var(--color-primary);
+}
+
+.admin-sidebar-btn.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.admin-sidebar-footer {
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-dark-border);
+}
+
+/* Main Content Workspace */
+.admin-main {
+  flex-grow: 1;
+  margin-left: 260px; /* Offset sidebar width */
+  padding: var(--space-6);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  transition: var(--transition-fast);
+}
+
+/* Top Admin Header */
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-dark-border);
+  padding-bottom: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+/* Responsive Mobile Layout adjustments */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 100%;
+    height: 60px;
+    top: auto;
+    bottom: 0;
+    border-right: none;
+    border-top: 1.5px solid var(--color-dark-border);
+    flex-direction: row;
+  }
+  .admin-sidebar-header, .admin-sidebar-footer {
+    display: none; /* Hide header details on mobile nav */
+  }
+  .admin-sidebar-menu {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    width: 100%;
+    align-items: center;
+  }
+  .admin-sidebar-btn {
+    padding: var(--space-2);
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.6rem;
+    align-items: center;
+    flex-grow: 1;
+  }
+  .admin-sidebar-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  .admin-main {
+    margin-left: 0;
+    padding: var(--space-4) var(--space-4) 80px var(--space-4); /* Bottom space to clear mobile nav bar */
+  }
+}
+
+/* ------------------------------------------------------------------------
+   2. Tab Content Panels
+   ------------------------------------------------------------------------ */
+.admin-tab-panel {
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+.admin-tab-panel.active {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ------------------------------------------------------------------------
+   3. Administrative Stats Grid
+   ------------------------------------------------------------------------ */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 1024px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(5, 1fr); /* 5 stats blocks on large screens */
+  }
+}
+
+/* ------------------------------------------------------------------------
+   4. Status Tags classes
+   ------------------------------------------------------------------------ */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-approved, .status-active, .status-online {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: var(--color-success);
+}
+
+.status-pending {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: var(--color-warning);
+}
+
+.status-blocked, .status-disabled, .status-offline {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: var(--color-danger);
+}
+
+/* ------------------------------------------------------------------------
+   5. Settings Forms layouts
+   ------------------------------------------------------------------------ */
+.settings-grid-panel {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .settings-grid-panel {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ------------------------------------------------------------------------
+   6. SVG Charts & Analytics Indicators
+   ------------------------------------------------------------------------ */
+.svg-chart-box {
+  width: 100%;
+  height: 220px;
+  background-color: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--color-dark-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.chart-bar-hover-effect:hover {
+  fill: var(--color-primary) !important;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   GLASSMORPHISM THEME OVERRIDES (Mac-OS / Windows 11 frosted glass style)
+   ========================================================================== */
+.card, 
+.category-card, 
+.restaurant-card, 
+.hero-search-box, 
+.checkout-card, 
+.cart-summary, 
+.order-summary, 
+.profile-card, 
+.modal-content, 
+.popup, 
+.settings-panel, 
+.stats-card, 
+.dashboard-card, 
+.analytics-card,
+.widget,
+.panel,
+.admin-sidebar,
+.owner-sidebar,
+.login-container,
+.register-container,
+.cart-container,
+.tracking-card,
+.queue-card,
+.form-container,
+.table-container,
+.glass-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hover lift and glow */
+.card-interactive:hover,
+.restaurant-card:hover,
+.category-card:hover,
+.dashboard-card:hover,
+.stats-card:hover,
+.widget:hover,
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 50px rgba(255, 90, 54, 0.25), 0 0 15px rgba(255, 90, 54, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Input boxes with glass styling */
+.input-field,
+select,
+textarea,
+.hero-search-box input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: var(--color-dark-text-main) !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.input-field:hover,
+select:hover,
+textarea:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.input-field:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 15px rgba(255, 90, 54, 0.35) !important;
+}

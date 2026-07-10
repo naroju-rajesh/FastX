@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>The Burger Lab Menu - FastX</title>
+  <meta name="description" content="Browse delicious gourmet burgers, sides, and pizzas from The Burger Lab. Add items to your cart and order online with FastX.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans for Headers, Inter for Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets (Paths use "../" to resolve correctly from the /customer directory) -->
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/restaurant-detail.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       1. NAVIGATION BAR
+       ========================================== -->
+  <nav class="navbar" aria-label="Main Navigation">
+    <div class="container navbar-container">
+      
+      <!-- Brand Logo (Redirects to homepage one directory up) -->
+      <a href="../index.html" class="navbar-logo" id="logo-link">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--color-primary)" stroke="var(--color-primary)"/>
+        </svg>
+        Fast<span>X</span>
+      </a>
+
+      <!-- Navigation Menu -->
+      <div class="navbar-menu">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../index.html#categories" class="nav-link">Categories</a>
+        <a href="../index.html#restaurants" class="nav-link">Popular Restaurants</a>
+        <a href="profile.html" class="nav-link" id="nav-profile-link" style="display: none;">Profile</a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; align-items: center; gap: var(--space-4);">
+        <!-- Cart Action Icon -->
+        <button class="btn btn-secondary" style="padding: 10px; border-radius: var(--radius-full);" aria-label="View Shopping Cart">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+        </button>
+        
+        <!-- Login Button -->
+        <a href="login.html" class="btn btn-primary" id="nav-login-btn">Log In</a>
+
+        <!-- User Info Slot when Logged In -->
+        <div id="nav-user-info" style="display: none; align-items: center; gap: 8px;">
+          <!-- Avatar + Name -->
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ==========================================
+       2. RESTAURANT BANNER & PROFILE
+       ========================================== -->
+  <header class="restaurant-banner-section">
+    <!-- Big Restaurant Background Banner -->
+    <img class="restaurant-cover-image" src="../assets/illustrations/hero_food_banner.png" alt="The Burger Lab background cover image">
+    
+    <div class="container">
+      <!-- Floating Glass Profile Card overlay -->
+      <div class="restaurant-profile-card">
+        <div class="restaurant-profile-grid">
+          
+          <!-- Name, Cuisine details -->
+          <div class="profile-main-info">
+            <div class="profile-title-row">
+              <h1 class="text-3xl">The Burger Lab</h1>
+              <span class="badge badge-success">Open Now</span>
+            </div>
+            <p class="profile-tagline">Premium Burgers • Fast Food • American Grill</p>
+            <p class="text-xs" style="color: var(--color-dark-text-muted);">Gourmet street-style recipes crafted by seasoned chefs.</p>
+          </div>
+
+          <!-- Quick statistics grid (rating, speed, costs) -->
+          <div class="profile-metrics-row">
+            <div class="metric-item rating">
+              <span>★</span> 4.8 (120+ ratings)
+            </div>
+            <div style="width: 1px; height: 16px; background-color: var(--color-dark-border);"></div>
+            <div class="metric-item">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              20-30 mins
+            </div>
+            <div style="width: 1px; height: 16px; background-color: var(--color-dark-border);"></div>
+            <div class="metric-item">
+              $200 for two
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       3. MENU LIST & CATEGORIES
+       ========================================== -->
+  <main class="menu-section">
+    <div class="container menu-layout-grid">
+      
+      <!-- Left Column: Category navigation sidebar (Desktop only) -->
+      <aside class="menu-sidebar" aria-label="Menu categories list">
+        <h3 class="text-sm font-weight-bold" style="color: var(--color-dark-text-muted); margin-bottom: var(--space-3); padding-left: 14px; text-transform: uppercase; letter-spacing: 1px;">Categories</h3>
+        <a href="#premium-burgers" class="sidebar-category-link active">Premium Burgers</a>
+        <a href="#appetizers" class="sidebar-category-link">Appetizers</a>
+        <a href="#signature-pizzas" class="sidebar-category-link">Signature Pizzas</a>
+      </aside>
+
+      <!-- Mobile Top category scrolling bar -->
+      <div class="mobile-category-bar" aria-label="Quick category selector">
+        <button class="mobile-category-btn active">Burgers</button>
+        <button class="mobile-category-btn">Appetizers</button>
+        <button class="mobile-category-btn">Pizzas</button>
+      </div>
+
+      <!-- Right Column: Food list groupings -->
+      <section class="menu-group-container" aria-label="Menu Card Listings">
+        
+        <!-- Category Group 1: Premium Burgers -->
+        <div id="premium-burgers" class="menu-group">
+          <h2 class="text-2xl menu-group-title">Premium Burgers</h2>
+          
+          <!-- Dish 1 -->
+          <div class="dish-card">
+            <!-- Left Info Panel -->
+            <div class="dish-info">
+              <div class="dish-tag-row">
+                <!-- Red dot inside square indicating Non-Veg -->
+                <span class="tag-indicator tag-nonveg" title="Non-Vegetarian"></span>
+                <span class="badge badge-warning" style="font-size: 0.65rem; padding: 2px 6px;">Chef's Special</span>
+              </div>
+              <h3 class="dish-name">Double Cheese Crunch Burger</h3>
+              <span class="dish-price">$8.99</span>
+              <p class="dish-description">Two juicy flame-grilled beef patties loaded with double cheddar cheese, fresh crunchy lettuce, onions, and our secret burger sauce.</p>
+            </div>
+            
+            <!-- Right Image + Add Floating Panel -->
+            <div class="dish-media-wrapper">
+              <img class="dish-image" src="../assets/illustrations/burger_menu_item.png" alt="Double Cheese Crunch Burger preview image">
+              <div class="dish-add-button-container">
+                <button class="dish-add-btn" aria-label="Add Double Cheese Crunch Burger to Cart">ADD</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dish 2 -->
+          <div class="dish-card">
+            <div class="dish-info">
+              <div class="dish-tag-row">
+                <span class="tag-indicator tag-nonveg" title="Non-Vegetarian"></span>
+              </div>
+              <h3 class="dish-name">Spicy Lava Chicken Burger</h3>
+              <span class="dish-price">$7.49</span>
+              <p class="dish-description">Crispy fried chicken breast fillet dipped in hot lava buffalo sauce, topped with creamy cheese spread, and spicy sliced jalapeños.</p>
+            </div>
+            <div class="dish-media-wrapper">
+              <img class="dish-image" src="../assets/illustrations/burger_menu_item.png" alt="Spicy Lava Chicken Burger preview image">
+              <div class="dish-add-button-container">
+                <button class="dish-add-btn" aria-label="Add Spicy Lava Chicken Burger to Cart">ADD</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Group 2: Appetizers -->
+        <div id="appetizers" class="menu-group">
+          <h2 class="text-2xl menu-group-title">Appetizers</h2>
+          
+          <!-- Dish 3 -->
+          <div class="dish-card">
+            <div class="dish-info">
+              <div class="dish-tag-row">
+                <!-- Green dot inside square indicating Veg -->
+                <span class="tag-indicator tag-veg" title="Vegetarian"></span>
+              </div>
+              <h3 class="dish-name">Crispy Golden Onion Rings</h3>
+              <span class="dish-price">$3.99</span>
+              <p class="dish-description">Thick cut fresh sweet onions double-battered and fried golden brown. Served with garlic dip.</p>
+            </div>
+            <div class="dish-media-wrapper">
+              <!-- Using standard banner for general items -->
+              <img class="dish-image" src="../assets/illustrations/hero_food_banner.png" alt="Crispy Golden Onion Rings preview image">
+              <div class="dish-add-button-container">
+                <button class="dish-add-btn" aria-label="Add Crispy Golden Onion Rings to Cart">ADD</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dish 4 -->
+          <div class="dish-card">
+            <div class="dish-info">
+              <div class="dish-tag-row">
+                <span class="tag-indicator tag-veg" title="Vegetarian"></span>
+              </div>
+              <h3 class="dish-name">Cheesy Loaded Fries</h3>
+              <span class="dish-price">$4.99</span>
+              <p class="dish-description">Golden fries drizzled with hot cheddar cheese sauce, garlic cream, and seasoned herbs.</p>
+            </div>
+            <div class="dish-media-wrapper">
+              <img class="dish-image" src="../assets/illustrations/hero_food_banner.png" alt="Cheesy Loaded Fries preview image">
+              <div class="dish-add-button-container">
+                <button class="dish-add-btn" aria-label="Add Cheesy Loaded Fries to Cart">ADD</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Group 3: Signature Pizzas -->
+        <div id="signature-pizzas" class="menu-group">
+          <h2 class="text-2xl menu-group-title">Signature Pizzas</h2>
+          
+          <!-- Dish 5 -->
+          <div class="dish-card">
+            <div class="dish-info">
+              <div class="dish-tag-row">
+                <span class="tag-indicator tag-nonveg" title="Non-Vegetarian"></span>
+              </div>
+              <h3 class="dish-name">Pepperoni Paradise Pizza</h3>
+              <span class="dish-price">$12.99</span>
+              <p class="dish-description">Perfect hand-stretched sourdough loaded with savory pepperoni slices, freshly shredded premium mozzarella, and crushed tomato base.</p>
+            </div>
+            <div class="dish-media-wrapper">
+              <img class="dish-image" src="../assets/illustrations/pizza_menu_item.png" alt="Pepperoni Paradise Pizza preview image">
+              <div class="dish-add-button-container">
+                <button class="dish-add-btn" aria-label="Add Pepperoni Paradise Pizza to Cart">ADD</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+      
+    </div>
+  </main>
+
+  <!-- ==========================================
+       4. FOOTER SECTION
+       ========================================== -->
+  <footer style="border-top: 1px solid var(--color-dark-border); padding: 40px 0; background-color: var(--color-dark-bg); text-align: center;">
+    <div class="container">
+      <p style="font-size: 0.875rem; color: var(--color-dark-text-muted);">
+        &copy; 2026 FastX Technologies Inc. All rights reserved.
+      </p>
+      <p class="text-xs" style="margin-top: var(--space-2); color: var(--color-dark-text-muted);">
+        You are browsing the digital catalog of The Burger Lab on FastX.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Link dynamic restaurant detail parsing script -->
+  <script src="../js/pages/restaurant-detail.js"></script>
+</body>
+</html>

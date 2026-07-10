@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Category Selection - FastX</title>
+  <meta name="description" content="Explore delicious meals by category with FastX. Fast, secure, and AI-recommended food delivered to your door.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans for Headers, Inter for Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/home.css">
+  <link rel="stylesheet" href="../css/pages/restaurant-detail.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       1. NAVIGATION BAR
+       ========================================== -->
+  <nav class="navbar" aria-label="Main Navigation">
+    <div class="container navbar-container">
+      
+      <!-- Brand Logo -->
+      <a href="../index.html" class="navbar-logo" id="logo-link">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--color-primary)" stroke="var(--color-primary)"/>
+        </svg>
+        Fast<span>X</span>
+      </a>
+
+      <!-- Navigation Menu -->
+      <div class="navbar-menu">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../index.html#explore-categories" class="nav-link">Categories</a>
+        <a href="profile.html" class="nav-link" id="nav-profile-link" style="display: none;">Profile</a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; align-items: center; gap: var(--space-4);">
+        <!-- Cart Action Icon -->
+        <a href="checkout.html" class="btn btn-secondary" style="padding: 10px; border-radius: var(--radius-full); position: relative;" aria-label="View Shopping Cart">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span id="cart-badge-count" style="display: none; position: absolute; top: -5px; right: -5px; background-color: var(--color-primary); color: white; border-radius: 50%; font-size: 0.65rem; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</span>
+        </a>
+        
+        <!-- Login Button -->
+        <a href="login.html" class="btn btn-primary" id="nav-login-btn">Log In</a>
+
+        <!-- User Info Slot when Logged In -->
+        <div id="nav-user-info" style="display: none; align-items: center; gap: 8px;">
+          <!-- Avatar + Name -->
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ==========================================
+       2. DYNAMIC CATEGORY HEADER BANNER
+       ========================================= -->
+  <header class="restaurant-banner-section" style="height: 320px; overflow: hidden; position: relative;">
+    <img id="category-cover-banner" class="restaurant-cover-image" src="../assets/illustrations/hero_food_banner.png" alt="Category Banner" style="width: 100%; height: 100%; object-fit: cover;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(15,16,17,0.4) 0%, rgba(15,16,17,0.85) 100%); z-index: 1;"></div>
+    
+    <div class="container" style="position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: var(--space-8);">
+      <div class="restaurant-profile-card" style="margin-top: 0; width: 100%; max-width: 700px;">
+        <h1 id="category-display-title" class="text-4xl font-weight-bold" style="color: #FFFFFF; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Loading Category...</h1>
+        <p id="category-display-subtitle" class="text-base" style="color: var(--color-dark-text-muted); margin-top: var(--space-2); text-shadow: 0 1px 2px rgba(0,0,0,0.8);">Please wait while we filter choices.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       3. MEAL ITEMS DISPLAY GRID
+       ========================================= -->
+  <main class="section-padding" style="background-color: var(--color-dark-bg); min-height: 50vh;">
+    <div class="container">
+      
+      <!-- Back Link & Metrics -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6);">
+        <a href="../index.html#explore-categories" style="display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-primary); font-weight: 600;">
+          ← Back to Categories
+        </a>
+        <span id="category-dishes-count" class="badge badge-warning" style="font-size: 0.8125rem;">0 Items Found</span>
+      </div>
+
+      <!-- Food Menu Grid -->
+      <div id="category-foods-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-6);">
+        <!-- Skeleton Loader States -->
+        <div class="card glass-card skeleton" style="height: 380px;"></div>
+        <div class="card glass-card skeleton" style="height: 380px;"></div>
+        <div class="card glass-card skeleton" style="height: 380px;"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       4. FOOTER SECTION
+       ========================================== -->
+  <footer style="border-top: 1px solid var(--color-dark-border); padding: 40px 0; background-color: var(--color-dark-bg); text-align: center;">
+    <div class="container">
+      <p style="font-size: 0.875rem; color: var(--color-dark-text-muted);">
+        &copy; 2026 FastX Technologies Inc. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Shared Cart script -->
+  <script src="../js/cart.js"></script>
+
+  <!-- Database & Dynamic Category Controller Script -->
+  <script src="../js/pages/home-categories.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Grab URL type parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoryType = (urlParams.get("type") || "breakfast").toLowerCase();
+
+      // Local storage hooks
+      let favorites = JSON.parse(localStorage.getItem("fastx_favorites")) || [];
+
+      // Listen to dynamic cart state updates
+      window.addEventListener("cartUpdated", () => {
+        updateCartBadge();
+      });
+
+      // Update Cart Badge Count
+      const updateCartBadge = () => {
+        const badge = document.getElementById("cart-badge-count");
+        if (badge && typeof getCartCount === "function") {
+          const totalItems = getCartCount();
+          if (totalItems > 0) {
+            badge.innerText = totalItems;
+            badge.style.display = "flex";
+          } else {
+            badge.style.display = "none";
+          }
+        }
+      };
+      updateCartBadge();
+
+      // Category details dictionary (Titles, subtitles, and local high-quality banner images)
+      const CATEGORY_DETAILS = {
+        breakfast: { title: "Breakfast Specials", subtitle: "Warm, fresh, and traditional morning bites to kickstart your day", banner: "../assets/illustrations/categories/breakfast.jpg" },
+        lunch: { title: "Lunch Feasts", subtitle: "Hearty lunches, dynamic thalis, and spicy rice combinations", banner: "../assets/illustrations/categories/lunch.jpg" },
+        dinner: { title: "Dinner Platters", subtitle: "Spicy mughlai gravies, freshly baked clay naans, and family feasts", banner: "../assets/illustrations/categories/dinner.jpg" },
+        fastfood: { title: "Fast Food Favorites", subtitle: "Double patty burgers, melting pizzas, and golden fries", banner: "../assets/illustrations/categories/fast_food.jpg" },
+        pizza: { title: "Cheesy Pizzas", subtitle: "Freshly baked thin crust gourmet pizzas with extra cheese toppings", banner: "../assets/illustrations/categories/pizza.jpg" },
+        burgers: { title: "Gourmet Burgers", subtitle: "Juicy patties, fresh lettuce, and house-special burger sauces", banner: "../assets/illustrations/categories/burgers.jpg" },
+        biryani: { title: "Royal Biryanis", subtitle: "Long grain aromatic basmati rice cooked to perfection with traditional spices", banner: "../assets/illustrations/categories/biryani.jpg" },
+        southindian: { title: "South Indian Delicacies", subtitle: "Authentic steamed idlis, crispy dosas, vadas, and chicory filter coffees", banner: "../assets/illustrations/categories/south_indian.jpg" },
+        northindian: { title: "North Indian Delights", subtitle: "Buttery paneers, dal makhanis, and freshly baked tandoori naans", banner: "../assets/illustrations/categories/north_indian.jpg" },
+        chinese: { title: "Chinese Wok Specials", subtitle: "Tossed vegetables, steaming hot dumplings, and wok-fired rice", banner: "../assets/illustrations/categories/chinese.jpg" },
+        desserts: { title: "Desserts & Sweets", subtitle: "Mouthwatering hot gulab jamuns, chocolate lava cakes, and gelatos", banner: "../assets/illustrations/categories/desserts.jpg" },
+        beverages: { title: "Coffee & Beverages", subtitle: "Authentic filter coffee, cardamon masala tea, and refreshing cold drinks", banner: "../assets/illustrations/categories/beverages.jpg" },
+        pureveg: { title: "Pure Veg Favorites", subtitle: "Deliciously prepared 100% vegetarian culinary masterpieces", banner: "../assets/illustrations/categories/pure_veg.jpg" },
+        nonveg: { title: "Non-Veg Specialties", subtitle: "Spicy tandoori chicken, mughlai mutton curries, and kebabs", banner: "../assets/illustrations/categories/non_veg.jpg" },
+        snacks: { title: "Tasty Snacks", subtitle: "Crispy bondas, hot medu vadas, peri peri french fries, and rolls", banner: "../assets/illustrations/categories/snacks.jpg" }
+      };
+
+      // Select active category details
+      const activeCategory = CATEGORY_DETAILS[categoryType] || CATEGORY_DETAILS.breakfast;
+
+      // Update Banner and Titles
+      document.getElementById("category-cover-banner").src = activeCategory.banner;
+      document.getElementById("category-display-title").innerText = activeCategory.title;
+      document.getElementById("category-display-subtitle").innerText = activeCategory.subtitle;
+
+      // Gather all food items across the home-categories database
+      let allDishes = [];
+      if (typeof CATEGORIES_DATA !== "undefined") {
+        CATEGORIES_DATA.forEach(cat => {
+          cat.items.forEach(item => {
+            // Avoid duplicates by tracking ID
+            if (!allDishes.some(d => d.id === item.id)) {
+              allDishes.push(item);
+            }
+          });
+        });
+      }
+
+      // Filter dishes based on Category ID
+      let filteredDishes = [];
+      
+      const filterByNames = (keywords) => {
+        return allDishes.filter(dish => 
+          keywords.some(kw => dish.name.toLowerCase().includes(kw))
+        );
+      };
+
+      if (categoryType === "breakfast" || categoryType === "lunch" || categoryType === "dinner" || categoryType === "desserts" || categoryType === "beverages" || categoryType === "fastfood") {
+        // Direct category ID matching from database rows
+        const catRow = CATEGORIES_DATA.find(c => c.id === (categoryType === "fastfood" ? "fastfood" : categoryType));
+        if (catRow) {
+          filteredDishes = catRow.items;
+        }
+      } else if (categoryType === "pureveg") {
+        filteredDishes = allDishes.filter(d => d.isVeg === true);
+      } else if (categoryType === "nonveg") {
+        filteredDishes = allDishes.filter(d => d.isVeg === false);
+      } else if (categoryType === "pizza") {
+        filteredDishes = filterByNames(["pizza"]);
+      } else if (categoryType === "burgers") {
+        filteredDishes = filterByNames(["burger"]);
+      } else if (categoryType === "biryani") {
+        filteredDishes = filterByNames(["biryani"]);
+      } else if (categoryType === "southindian") {
+        filteredDishes = allDishes.filter(d => 
+          d.id.startsWith("b") || // Most breakfast items are South Indian
+          ["south", "andhra", "dosa", "idli", "vada", "pongal", "uttapam", "pesarattu", "bonda", "coffee"].some(kw => d.name.toLowerCase().includes(kw))
+        );
+      } else if (categoryType === "northindian") {
+        filteredDishes = allDishes.filter(d => 
+          ["paneer", "chicken", "mutton", "naan", "pulao", "makhani", "tikka", "masala", "korma", "tadka", "chana", "aloo"].some(kw => d.name.toLowerCase().includes(kw)) &&
+          !["south", "andhra", "fried rice", "momos"].some(kw => d.name.toLowerCase().includes(kw))
+        );
+      } else if (categoryType === "chinese") {
+        filteredDishes = filterByNames(["fried rice", "momo"]);
+      } else if (categoryType === "snacks") {
+        filteredDishes = allDishes.filter(d => 
+          ["fries", "roll", "bread", "nuggets", "bonda", "vada"].some(kw => d.name.toLowerCase().includes(kw))
+        );
+      }
+
+      // Render the filtered food items inside the grid
+      const grid = document.getElementById("category-foods-grid");
+      document.getElementById("category-dishes-count").innerText = `${filteredDishes.length} Items Found`;
+
+      setTimeout(() => {
+        grid.innerHTML = "";
+        
+        if (filteredDishes.length === 0) {
+          grid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px var(--space-4);">
+              <h3 class="text-xl font-weight-bold" style="color: var(--color-dark-text-muted);">No dishes available in this category yet.</h3>
+              <p class="text-sm" style="margin-top: 8px;">Explore our other popular food options on the homepage!</p>
+            </div>
+          `;
+          return;
+        }
+
+        filteredDishes.forEach(item => {
+          const isFav = favorites.includes(item.id);
+          const indicatorClass = item.isVeg ? "indicator-veg" : "indicator-nonveg";
+          const indicatorTitle = item.isVeg ? "Veg" : "Non-Veg";
+          
+          const escapedName = item.name.replace(/'/g, "\\'");
+          const escapedRest = item.restaurant.replace(/'/g, "\\'");
+
+          // Image resolver (prioritize local, fallback to Unsplash)
+          const imgUrl = item.img ? `../${item.img}` : `https://images.unsplash.com/${item.imgId}?w=320&h=240&auto=format&fit=crop&q=65`;
+
+          const card = document.createElement("div");
+          card.className = "card glass-card restaurant-card";
+          card.style.position = "relative";
+          
+          card.innerHTML = `
+            <!-- Favorite Heart Button overlay -->
+            <button class="fav-heart-btn ${isFav ? 'active' : ''}" style="position: absolute; top: 12px; right: 12px; z-index: 10;" onclick="toggleFav('${item.id}', this)" aria-label="Add to Favorites">♥</button>
+            
+            <div class="restaurant-img-wrapper" style="overflow: hidden; border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative;">
+              <img class="lazy-load-img" src="../assets/illustrations/hero_food_banner.png" data-src="${imgUrl}" alt="${item.name}" loading="lazy" style="transition: transform 0.4s ease, filter 0.5s ease; filter: blur(5px); width: 100%; height: 180px; object-fit: cover;">
+              
+              <div class="restaurant-badge-overlay" style="display: flex; gap: 4px; position: absolute; bottom: 8px; left: 8px; z-index: 5;">
+                <span class="${indicatorClass}" title="${indicatorTitle}"></span>
+                <span class="badge badge-success" style="font-size: 0.65rem;">${item.time}</span>
+              </div>
+            </div>
+            
+            <div class="restaurant-details" style="padding: var(--space-4); display: flex; flex-direction: column; flex-grow: 1;">
+              <h3 class="text-lg font-weight-bold" style="color: var(--color-dark-text-main); line-height: 1.2;">${item.name}</h3>
+              <p class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted); margin-top: 2px;">${item.restaurant}</p>
+              
+              <div class="restaurant-meta" style="margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: var(--space-4);">
+                <span class="restaurant-rating" style="font-size: 0.8125rem;">★ ${item.rating}</span>
+                <span style="color: var(--color-primary); font-weight: 700; font-size: 1rem;">₹${item.price}</span>
+              </div>
+              
+              <button class="btn btn-primary btn-block" style="margin-top: var(--space-3); padding: 8px 12px; font-size: 0.8125rem; font-weight: 600;" onclick="addToCartCategory('${item.id}', '${escapedRest}', '${escapedName}', ${item.price})">
+                Add to Cart
+              </button>
+            </div>
+          `;
+
+          grid.appendChild(card);
+        });
+
+        // Initialize lazy loading observer for new images
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.getAttribute("data-src");
+              img.style.filter = "none";
+              obs.unobserve(img);
+            }
+          });
+        });
+
+        document.querySelectorAll(".lazy-load-img").forEach(img => observer.observe(img));
+
+      }, 500);
+
+      // Global Favorite Toggle logic
+      window.toggleFav = (id, btn) => {
+        let index = favorites.indexOf(id);
+        if (index > -1) {
+          favorites.splice(index, 1);
+          btn.classList.remove("active");
+        } else {
+          favorites.push(id);
+          btn.classList.add("active");
+        }
+        localStorage.setItem("fastx_favorites", JSON.stringify(favorites));
+      };
+
+      // Add to Cart logic
+      window.addToCartCategory = (id, restaurantName, itemName, price) => {
+        // Parse clean numerical restaurant ID from item ID string (e.g. b1 -> 20, l1 -> 3, ff1 -> 2, etc.)
+        let parsedRestId = "1";
+        if (id.startsWith("b")) parsedRestId = "20"; // Veena Stores
+        else if (id.startsWith("l")) parsedRestId = "3"; // MTR
+        else if (id.startsWith("d")) parsedRestId = "6"; // Empire
+        else if (id.startsWith("v")) parsedRestId = "9"; // The Black Pearl
+        else if (id.startsWith("nv")) parsedRestId = "5"; // Nagarjuna
+        else if (id.startsWith("ff")) parsedRestId = "2"; // Truffles
+        else if (id.startsWith("ds")) parsedRestId = "7"; // Corner House
+        else if (id.startsWith("bv")) parsedRestId = "18"; // Brahmin's Coffee Bar
+
+        const isVeg = id.startsWith("v") || id.startsWith("b") || id.startsWith("ds") || id.startsWith("bv");
+        addToCart(parsedRestId, restaurantName, {
+          name: itemName,
+          price: price,
+          veg: isVeg,
+          img: "../assets/illustrations/hero_food_banner.png"
+        });
+      };
+
+    });
+  </script>
+
+</body>
+</html>

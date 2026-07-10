@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Admin Dashboard - FastX</title>
+  <meta name="description" content="Manage platform operations, verify merchants, block users, and monitor order stats for FastX.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/admin-dashboard.css">
+  <link rel="stylesheet" href="../css/pages/checkout.css"> <!-- Reusing modal backdrop styling -->
+</head>
+<body class="admin-root">
+
+  <!-- ==========================================
+       1. SIDEBAR NAVIGATION (Desktop)
+       ========================================== -->
+  <aside class="admin-sidebar" aria-label="Console Navigation">
+    <div class="admin-sidebar-header">
+      <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+      <span class="font-weight-bold text-lg" style="letter-spacing: 0.5px;">FastX <span style="color: var(--color-primary);">Admin</span></span>
+    </div>
+
+    <!-- 8 Tabs Buttons -->
+    <nav class="admin-sidebar-menu">
+      <button class="admin-sidebar-btn active" onclick="switchAdminTab('overview')" id="btn-overview">
+        📊 Overview
+      </button>
+      <button class="admin-sidebar-btn" onclick="switchAdminTab('restaurants')" id="btn-restaurants">
+        🏪 Restaurants
+      </button>
+      <button class="admin-sidebar-btn" onclick="switchAdminTab('customers')" id="btn-customers">
+        👥 Customers
+      </button>
+      <button class="admin-sidebar-btn" onclick="switchAdminTab('orders')" id="btn-orders">
+        📦 Orders
+      </button>
+      <button class="admin-sidebar-btn" onclick="switchAdminTab('drivers')" id="btn-drivers">
+        🛵 Drivers
+      </button>
+      <button class="admin-sidebar-btn" onclick="switchAdminTab('reports')" id="btn-reports">
+        📈 Reports & Analytics
+      </button>
+      <button class="admin-sidebar-btn" onclick="switchAdminTab('settings')" id="btn-settings">
+        ⚙️ System Settings
+      </button>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <button class="btn btn-secondary btn-block" onclick="processAdminLogout()" style="padding: 8px;">
+        Log Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       2. MAIN WORKSPACE / CONTENT PANELS
+       ========================================== -->
+  <main class="admin-main">
+    
+    <!-- Workspace Header -->
+    <header class="admin-header">
+      <div>
+        <h1 class="text-3xl">System Console</h1>
+        <p class="text-xs" style="color: var(--color-dark-text-muted); margin-top: 2px;">Central Administration Center • Live Sandbox mode</p>
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: var(--space-4);">
+        <span class="badge badge-success" style="padding: 6px 12px; font-size: 0.8125rem;">Live Connections: OK</span>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         TAB PANEL 1: OVERVIEW DASHBOARD
+         ====================================================================== -->
+    <section class="admin-tab-panel active" id="panel-overview">
+      
+      <!-- 5 Stats Cards Grid -->
+      <div class="admin-stats-grid">
+        <div class="card">
+          <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted);">TOTAL CUSTOMERS</span>
+          <div class="text-2xl font-weight-bold" id="stats-customers" style="margin-top: 4px;">0</div>
+        </div>
+        <div class="card">
+          <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted);">TOTAL RESTAURANTS</span>
+          <div class="text-2xl font-weight-bold" id="stats-restaurants" style="margin-top: 4px;">0</div>
+        </div>
+        <div class="card">
+          <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted);">TOTAL ORDERS</span>
+          <div class="text-2xl font-weight-bold" id="stats-orders" style="margin-top: 4px;">0</div>
+        </div>
+        <div class="card">
+          <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted);">TOTAL REVENUE</span>
+          <div class="text-2xl font-weight-bold" id="stats-revenue" style="margin-top: 4px; color: var(--color-success);">₹0</div>
+        </div>
+        <div class="card">
+          <span class="text-xs font-weight-semibold" style="color: var(--color-dark-text-muted);">ONLINE DRIVERS</span>
+          <div class="text-2xl font-weight-bold" id="stats-drivers" style="margin-top: 4px; color: var(--color-warning);">0</div>
+        </div>
+      </div>
+
+      <!-- Trend Chart Mock (SVG) -->
+      <div class="card" style="padding: var(--space-6);">
+        <h3 class="text-lg font-weight-bold" style="margin-bottom: var(--space-4);">Daily Order Volume Trend</h3>
+        <div class="svg-chart-box">
+          <svg viewBox="0 0 500 150" width="100%" height="100%">
+            <!-- Graph Grids -->
+            <line x1="40" y1="10" x2="480" y2="10" stroke="#2D3135" stroke-dasharray="4"/>
+            <line x1="40" y1="50" x2="480" y2="50" stroke="#2D3135" stroke-dasharray="4"/>
+            <line x1="40" y1="90" x2="480" y2="90" stroke="#2D3135" stroke-dasharray="4"/>
+            <line x1="40" y1="130" x2="480" y2="130" stroke="#2D3135"/>
+            
+            <!-- Axis Labels -->
+            <text x="10" y="15" fill="#9CA3AF" font-size="8">100</text>
+            <text x="10" y="55" fill="#9CA3AF" font-size="8">50</text>
+            <text x="10" y="95" fill="#9CA3AF" font-size="8">25</text>
+            <text x="10" y="135" fill="#9CA3AF" font-size="8">0</text>
+
+            <!-- Line Path (Gradient Area) -->
+            <path d="M 40 130 Q 110 50, 180 90 T 320 30 T 480 10 L 480 130 Z" fill="rgba(255, 90, 54, 0.08)" />
+            <path d="M 40 130 Q 110 50, 180 90 T 320 30 T 480 10" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round" />
+            
+            <!-- Key Points -->
+            <circle cx="480" cy="10" r="4" fill="var(--color-primary)"/>
+            <circle cx="320" cy="30" r="4" fill="var(--color-primary)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Recent Log Activities -->
+      <div class="card" style="padding: var(--space-6);">
+        <h3 class="text-lg font-weight-bold" style="margin-bottom: var(--space-4);">System Audit Log</h3>
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);" id="activity-log-container">
+          <!-- Dynamic entries -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 2: RESTAURANT MANAGEMENT
+         ====================================================================== -->
+    <section class="admin-tab-panel" id="panel-restaurants">
+      <div class="menu-controls-row">
+        <div class="input-group" style="max-width: 320px; margin-bottom: 0;">
+          <input class="input-field" type="text" id="rest-search-input" placeholder="Search restaurant name..." oninput="filterRestaurantsTable(this.value)">
+        </div>
+      </div>
+
+      <div style="overflow-x: auto; margin-top: var(--space-4);">
+        <table class="menu-list-table">
+          <thead>
+            <tr>
+              <th>Restaurant</th>
+              <th>Area</th>
+              <th>Rating</th>
+              <th>Status</th>
+              <th>Console Approval</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-restaurants-table-body">
+            <!-- Data dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 3: CUSTOMER MANAGEMENT
+         ====================================================================== -->
+    <section class="admin-tab-panel" id="panel-customers">
+      <div class="menu-controls-row">
+        <div class="input-group" style="max-width: 320px; margin-bottom: 0;">
+          <input class="input-field" type="text" id="cust-search-input" placeholder="Search customer email..." oninput="filterCustomersTable(this.value)">
+        </div>
+      </div>
+
+      <div style="overflow-x: auto; margin-top: var(--space-4);">
+        <table class="menu-list-table">
+          <thead>
+            <tr>
+              <th>Customer Name</th>
+              <th>Email</th>
+              <th>Contact</th>
+              <th>Status</th>
+              <th>System Action</th>
+              <th>History</th>
+            </tr>
+          </thead>
+          <tbody id="admin-customers-table-body">
+            <!-- Data dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 4: ORDER MANAGEMENT
+         ====================================================================== -->
+    <section class="admin-tab-panel" id="panel-orders">
+      <div class="menu-controls-row">
+        <div class="input-group" style="max-width: 320px; margin-bottom: 0;">
+          <select class="input-field" id="order-status-filter" onchange="filterOrdersTable(this.value)">
+            <option value="ALL">All Orders</option>
+            <option value="PLACED">Placed</option>
+            <option value="PREPARING">Preparing</option>
+            <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+            <option value="DELIVERED">Delivered</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="overflow-x: auto; margin-top: var(--space-4);">
+        <table class="menu-list-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Restaurant</th>
+              <th>Total Amount</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-orders-table-body">
+            <!-- Data dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 5: DELIVERY PARTNER MANAGEMENT
+         ====================================================================== -->
+    <section class="admin-tab-panel" id="panel-drivers">
+      <div style="overflow-x: auto;">
+        <table class="menu-list-table">
+          <thead>
+            <tr>
+              <th>Rider Name</th>
+              <th>Contact</th>
+              <th>Vehicle info</th>
+              <th>Current Status</th>
+              <th>Toggle Availability</th>
+            </tr>
+          </thead>
+          <tbody id="admin-drivers-table-body">
+            <!-- Data dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 6: REPORTS & ANALYTICS
+         ====================================================================== -->
+    <section class="admin-tab-panel" id="panel-reports">
+      <div class="grid grid-2-col">
+        
+        <!-- Top performing restaurants -->
+        <div class="card" style="padding: var(--space-6);">
+          <h3 class="text-lg font-weight-bold" style="margin-bottom: var(--space-4);">Top Selling Bengaluru Restaurants</h3>
+          <div style="display: flex; flex-direction: column; gap: var(--space-4);" id="top-restaurants-list">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Weekly growth column columns -->
+        <div class="chart-container">
+          <h3 class="text-lg font-weight-bold">Weekly Order Turnovers</h3>
+          <div class="chart-bar-list" style="height: 180px;">
+            <div class="chart-bar-wrapper" style="width: 15%;">
+              <div class="chart-bar" style="height: 60%" data-value="120 orders"></div>
+              <span class="chart-label">Wk 1</span>
+            </div>
+            <div class="chart-bar-wrapper" style="width: 15%;">
+              <div class="chart-bar" style="height: 70%" data-value="142 orders"></div>
+              <span class="chart-label">Wk 2</span>
+            </div>
+            <div class="chart-bar-wrapper" style="width: 15%;">
+              <div class="chart-bar" style="height: 50%" data-value="95 orders"></div>
+              <span class="chart-label">Wk 3</span>
+            </div>
+            <div class="chart-bar-wrapper" style="width: 15%;">
+              <div class="chart-bar" style="height: 95%" data-value="198 orders"></div>
+              <span class="chart-label">Wk 4</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB PANEL 7: PLATFORM SETTINGS
+         ====================================================================== -->
+    <section class="admin-tab-panel" id="panel-settings">
+      <form id="admin-settings-form" onsubmit="savePlatformSettings(event)" class="card" style="padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);">
+        
+        <h3 class="text-lg font-weight-bold" style="border-bottom: 1px solid var(--color-dark-border); padding-bottom: 8px;">System Configurator</h3>
+
+        <div class="settings-grid-panel">
+          
+          <div class="input-group">
+            <label class="input-label" for="settings-delivery-charge">Delivery Charges ($)</label>
+            <input class="input-field" type="number" step="0.01" id="settings-delivery-charge" required>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="settings-gst-percent">GST Percentage (%)</label>
+            <input class="input-field" type="number" step="0.1" id="settings-gst-percent" required>
+          </div>
+
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: var(--space-2);">
+          <button class="btn btn-primary" type="submit">
+            Commit Changes
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       3. MODAL OVERLAY PANELS (Popup details)
+       ========================================== -->
+  <!-- Modal 1: Details view -->
+  <div id="admin-detail-modal" class="modal-overlay" aria-modal="true" role="dialog">
+    <div class="success-modal" style="max-width: 480px; text-align: left; align-items: stretch; padding: var(--space-6);">
+      
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4);">
+        <h2 class="text-2xl" id="detail-modal-title" style="color: var(--color-dark-text-main); margin: 0;">Details</h2>
+        <button onclick="closeDetailModal()" style="background: none; border: none; color: var(--color-dark-text-muted); font-size: 1.25rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div id="detail-modal-body" style="display: flex; flex-direction: column; gap: var(--space-4);">
+        <!-- Injected dynamically -->
+      </div>
+
+      <button class="btn btn-primary btn-block" onclick="closeDetailModal()" style="margin-top: var(--space-4);">
+        Close
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Load console dashboard controller -->
+  <script src="../js/pages/admin-dashboard.js"></script>
+</body>
+</html>
