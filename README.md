@@ -163,6 +163,6 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more details.
 
 ## 👤 Author Information
 
-* **Developer**: FastX Core Team
-* **E-mail**: ramaraju@example.com (Placeholder)
+* **Developer**: Naroju rajesh
+* **E-mail**: narojirajesh4@gmail.com (Naroju Rajesh)
 * **GitHub**: [github.com/naroju-rajesh](https://github.com/naroju-rajesh)
