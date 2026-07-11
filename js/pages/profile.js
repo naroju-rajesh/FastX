@@ -51,6 +51,93 @@ const mockOrders = [
   }
 ];
 
+// Comprehensive mapping of food item IDs to their actual restaurant metadata
+const ITEM_ID_TO_RESTAURANT = {
+  // Breakfast / South Indian (starts with b)
+  "b1": { name: "Veena Stores", cuisines: "South Indian Breakfast", restId: "20", rating: "4.8", img: "../assets/illustrations/categories/breakfast.jpg" },
+  "b2": { name: "CTR (Shri Sagar)", cuisines: "South Indian Breakfast", restId: "4", rating: "4.9", img: "../assets/illustrations/onion_uttapam.png" },
+  "b3": { name: "Brahmin's Coffee Bar", cuisines: "South Indian Breakfast", restId: "18", rating: "4.7", img: "../assets/illustrations/plain_dosa.png" },
+  "b4": { name: "Taza Thindi", cuisines: "South Indian Breakfast", restId: "21", rating: "4.8", img: "../assets/illustrations/categories/breakfast.jpg" },
+  "b5": { name: "MTR", cuisines: "Traditional South Indian", restId: "3", rating: "4.6", img: "../assets/illustrations/south_indian_breakfast.png" },
+  "b6": { name: "Veena Stores", cuisines: "South Indian Breakfast", restId: "20", rating: "4.7", img: "../assets/illustrations/categories/breakfast.jpg" },
+  "b7": { name: "Brahmin's Coffee Bar", cuisines: "South Indian Breakfast", restId: "18", rating: "4.5", img: "../assets/illustrations/plain_dosa.png" },
+  "b8": { name: "CTR (Shri Sagar)", cuisines: "South Indian Breakfast", restId: "4", rating: "4.6", img: "../assets/illustrations/onion_uttapam.png" },
+  "b9": { name: "Nagarjuna", cuisines: "Andhra Specialties", restId: "5", rating: "4.5", img: "../assets/illustrations/bengaluru_lunch_thali.png" },
+  "b10": { name: "Taza Thindi", cuisines: "South Indian Breakfast", restId: "21", rating: "4.7", img: "../assets/illustrations/categories/breakfast.jpg" },
+
+  // Lunch (starts with l)
+  "l1": { name: "MTR", cuisines: "Traditional South Thalis", restId: "3", rating: "4.7", img: "../assets/illustrations/bengaluru_lunch_thali.png" },
+  "l2": { name: "Nagarjuna", cuisines: "Andhra Specialties", restId: "5", rating: "4.6", img: "../assets/illustrations/bengaluru_lunch_thali.png" },
+  "l3": { name: "Nagarjuna", cuisines: "Andhra Specialties", restId: "5", rating: "4.7", img: "../assets/illustrations/bengaluru_lunch_thali.png" },
+  "l4": { name: "MTR", cuisines: "Traditional South Thalis", restId: "3", rating: "4.8", img: "../assets/illustrations/bengaluru_lunch_thali.png" },
+  "l5": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.5", img: "../assets/illustrations/gourmet_chicken_biryani.png" },
+  "l6": { name: "Chutney Chang", cuisines: "Chinese & Asian", restId: "12", rating: "4.4", img: "../assets/illustrations/veg_fried_rice.png" },
+  "l7": { name: "Chutney Chang", cuisines: "Chinese & Asian", restId: "12", rating: "4.5", img: "../assets/illustrations/veg_fried_rice.png" },
+  "l8": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.6", img: "../assets/illustrations/burger_menu_item.png" },
+  "l9": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.8", img: "../assets/illustrations/gourmet_chicken_biryani.png" },
+  "l10": { name: "Nagarjuna", cuisines: "Andhra Specialties", restId: "5", rating: "4.7", img: "../assets/illustrations/bengaluru_lunch_thali.png" },
+
+  // Dinner (starts with d)
+  "d1": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.7", img: "../assets/illustrations/gourmet_chicken_biryani.png" },
+  "d2": { name: "MTR", cuisines: "Traditional South Indian", restId: "3", rating: "4.8", img: "../assets/illustrations/bhindi_masala.png" },
+  "d3": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.8", img: "../assets/illustrations/gourmet_chicken_biryani.png" },
+  "d4": { name: "Nagarjuna", cuisines: "Andhra Specialties", restId: "5", rating: "4.9", img: "../assets/illustrations/indian_dinner_biryani.png" },
+  "d5": { name: "The Black Pearl", cuisines: "Barbecue & Buffet", restId: "9", rating: "4.6", img: "../assets/illustrations/categories/dinner.jpg" },
+  "d6": { name: "Windmills Craftworks", cuisines: "Microbrewery & Gourmet", restId: "10", rating: "4.7", img: "../assets/illustrations/categories/dinner.jpg" },
+  "d7": { name: "Sly Granny", cuisines: "European & Bar", restId: "15", rating: "4.5", img: "../assets/illustrations/categories/dinner.jpg" },
+  "d8": { name: "Sly Granny", cuisines: "European & Bar", restId: "15", rating: "4.7", img: "../assets/illustrations/categories/dinner.jpg" },
+  "d9": { name: "MTR", cuisines: "Traditional South Indian", restId: "3", rating: "4.4", img: "../assets/illustrations/bhindi_masala.png" },
+  "d10": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.7", img: "../assets/illustrations/gourmet_chicken_biryani.png" },
+
+  // Fast Food (starts with ff)
+  "ff1": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.6", img: "../assets/illustrations/burger_menu_item.png" },
+  "ff2": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.7", img: "../assets/illustrations/burger_menu_item.png" },
+  "ff3": { name: "Toit", cuisines: "Gourmet Woodfired Pizza", restId: "1", rating: "4.7", img: "../assets/illustrations/pizza_menu_item.png" },
+  "ff4": { name: "Toit", cuisines: "Gourmet Woodfired Pizza", restId: "1", rating: "4.6", img: "../assets/illustrations/pizza_menu_item.png" },
+  "ff5": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.5", img: "../assets/illustrations/burger_menu_item.png" },
+  "ff6": { name: "Leon's Burgers", cuisines: "Burgers & Fast Food", restId: "8", rating: "4.3", img: "../assets/illustrations/categories/fast_food.jpg" },
+  "ff7": { name: "Leon's Burgers", cuisines: "Burgers & Fast Food", restId: "8", rating: "4.5", img: "../assets/illustrations/categories/fast_food.jpg" },
+  "ff8": { name: "Toit", cuisines: "Gourmet Woodfired Pizza", restId: "1", rating: "4.5", img: "../assets/illustrations/pizza_menu_item.png" },
+  "ff9": { name: "Chutney Chang", cuisines: "Chinese & Asian", restId: "12", rating: "4.4", img: "../assets/illustrations/veg_fried_rice.png" },
+  "ff10": { name: "Leon's Burgers", cuisines: "Burgers & Fast Food", restId: "8", rating: "4.5", img: "../assets/illustrations/categories/fast_food.jpg" },
+
+  // Pizza (starts with p)
+  "p1": { name: "Toit", cuisines: "Gourmet Woodfired Pizza", restId: "1", rating: "4.7", img: "../assets/illustrations/pizza_menu_item.png" },
+  "p2": { name: "Toit", cuisines: "Gourmet Woodfired Pizza", restId: "1", rating: "4.6", img: "../assets/illustrations/pizza_menu_item.png" },
+  "p3": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.8", img: "../assets/illustrations/pizza_menu_item.png" },
+  "p4": { name: "Toit", cuisines: "Gourmet Woodfired Pizza", restId: "1", rating: "4.5", img: "../assets/illustrations/pizza_menu_item.png" },
+  "p5": { name: "The Black Pearl", cuisines: "Barbecue & Buffet", restId: "9", rating: "4.7", img: "../assets/illustrations/pizza_menu_item.png" },
+  "p6": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.6", img: "../assets/illustrations/pizza_menu_item.png" },
+  "p7": { name: "Toit", cuisines: "Gourmet Woodfired Pizza", restId: "1", rating: "4.5", img: "../assets/illustrations/pizza_menu_item.png" },
+  "p8": { name: "CTR (Shri Sagar)", cuisines: "South Indian Breakfast", restId: "4", rating: "4.6", img: "../assets/illustrations/onion_uttapam.png" },
+  "p9": { name: "Chutney Chang", cuisines: "Chinese & Asian", restId: "12", rating: "4.4", img: "../assets/illustrations/veg_fried_rice.png" },
+  "p10": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.8", img: "../assets/illustrations/pizza_menu_item.png" },
+
+  // Burgers (starts with bu)
+  "bu1": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.6", img: "../assets/illustrations/burger_menu_item.png" },
+  "bu2": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.7", img: "../assets/illustrations/burger_menu_item.png" },
+  "bu3": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.5", img: "../assets/illustrations/burger_menu_item.png" },
+  "bu4": { name: "Leon's Burgers", cuisines: "Burgers & Fast Food", restId: "8", rating: "4.6", img: "../assets/illustrations/categories/burgers.jpg" },
+  "bu5": { name: "Leon's Burgers", cuisines: "Burgers & Fast Food", restId: "8", rating: "4.3", img: "../assets/illustrations/categories/burgers.jpg" },
+  "bu6": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.7", img: "../assets/illustrations/burger_menu_item.png" },
+  "bu7": { name: "Leon's Burgers", cuisines: "Burgers & Fast Food", restId: "8", rating: "4.4", img: "../assets/illustrations/categories/burgers.jpg" },
+  "bu8": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.6", img: "../assets/illustrations/burger_menu_item.png" },
+  "bu9": { name: "Taza Thindi", cuisines: "South Indian Breakfast", restId: "21", rating: "4.5", img: "../assets/illustrations/categories/burgers.jpg" },
+  "bu10": { name: "Windmills Craftworks", cuisines: "Microbrewery & Gourmet", restId: "10", rating: "4.8", img: "../assets/illustrations/categories/burgers.jpg" },
+
+  // Biryani (starts with by)
+  "by1": { name: "Truffles", cuisines: "Burgers & Cafe", restId: "2", rating: "4.6", img: "../assets/illustrations/categories/biryani.jpg" },
+  "by2": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.8", img: "../assets/illustrations/categories/biryani.jpg" },
+  "by3": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.8", img: "../assets/illustrations/gourmet_chicken_biryani.png" },
+  "by4": { name: "Nagarjuna", cuisines: "Andhra Specialties", restId: "5", rating: "4.9", img: "../assets/illustrations/indian_dinner_biryani.png" },
+  "by5": { name: "MTR", cuisines: "Traditional South Indian", restId: "3", rating: "4.5", img: "../assets/illustrations/categories/biryani.jpg" },
+  "by6": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.5", img: "../assets/illustrations/categories/biryani.jpg" },
+  "by7": { name: "Windmills Craftworks", cuisines: "Microbrewery & Gourmet", restId: "10", rating: "4.8", img: "../assets/illustrations/categories/biryani.jpg" },
+  "by8": { name: "Empire Restaurant", cuisines: "Mughlai Non-Veg", restId: "6", rating: "4.7", img: "../assets/illustrations/categories/biryani.jpg" },
+  "by9": { name: "MTR", cuisines: "Traditional South Indian", restId: "3", rating: "4.6", img: "../assets/illustrations/categories/biryani.jpg" },
+  "by10": { name: "The Black Pearl", cuisines: "Barbecue & Buffet", restId: "9", rating: "4.8", img: "../assets/illustrations/categories/biryani.jpg" }
+};
+
 window.addEventListener("DOMContentLoaded", () => {
   // 1. Session Auth Guard: Redirect if not logged in
   const session = localStorage.getItem(USER_KEY);
@@ -259,38 +346,53 @@ function renderFavorites() {
     return;
   }
 
-  // Match IDs to mock restaurants
+  // Match IDs to mock restaurants while deduplicating restaurant cards
   container.innerHTML = "";
-  // Map some mock favorites
-  favoritesList.forEach(id => {
-    let name = "Local Partner";
-    let cuisines = "Veg • South Indian";
-    let rating = "4.5";
-    let img = "../assets/illustrations/hero_food_banner.png";
-    let restId = "1";
+  const uniqueRestaurants = new Set();
+  const renderedItems = [];
 
-    if (id.startsWith("b")) {
-      name = "Veena Stores"; cuisines = "South Indian Breakfast"; restId = "20";
-    } else if (id.startsWith("l")) {
-      name = "MTR"; cuisines = "Traditional South Thalis"; restId = "3";
-    } else if (id.startsWith("d")) {
-      name = "Empire Restaurant"; cuisines = "Mughlai Non-Veg"; restId = "6";
-    } else if (id.startsWith("ff")) {
-      name = "Truffles"; cuisines = "Burgers & Steaks"; restId = "2"; img = "../assets/illustrations/burger_menu_item.png";
-    } else {
-      name = "Toit Pizzeria"; cuisines = "Gourmet Woodfired Pizza"; restId = "1"; img = "../assets/illustrations/pizza_menu_item.png";
+  favoritesList.forEach(id => {
+    let mapping = ITEM_ID_TO_RESTAURANT[id];
+    
+    // Fallback if the specific ID isn't mapped
+    if (!mapping) {
+      let name = "Local Partner";
+      let cuisines = "Veg • South Indian";
+      let rating = "4.5";
+      let img = "../assets/illustrations/hero_food_banner.png";
+      let restId = "1";
+
+      if (id.startsWith("b")) {
+        name = "Veena Stores"; cuisines = "South Indian Breakfast"; restId = "20";
+      } else if (id.startsWith("l")) {
+        name = "MTR"; cuisines = "Traditional South Thalis"; restId = "3";
+      } else if (id.startsWith("d")) {
+        name = "Empire Restaurant"; cuisines = "Mughlai Non-Veg"; restId = "6";
+      } else if (id.startsWith("ff")) {
+        name = "Truffles"; cuisines = "Burgers & Steaks"; restId = "2"; img = "../assets/illustrations/burger_menu_item.png";
+      } else {
+        name = "Toit Pizzeria"; cuisines = "Gourmet Woodfired Pizza"; restId = "1"; img = "../assets/illustrations/pizza_menu_item.png";
+      }
+      mapping = { name, cuisines, rating, img, restId };
     }
 
+    if (!uniqueRestaurants.has(mapping.restId)) {
+      uniqueRestaurants.add(mapping.restId);
+      renderedItems.push(mapping);
+    }
+  });
+
+  renderedItems.forEach(item => {
     container.innerHTML += `
-      <div class="card card-interactive restaurant-card" onclick="window.location.href='restaurant.html?id=${restId}'">
+      <div class="card card-interactive restaurant-card" onclick="window.location.href='restaurant.html?id=${item.restId}'">
         <div class="restaurant-img-wrapper">
-          <img src="${img}" alt="${name}">
+          <img src="${item.img}" alt="${item.name}">
         </div>
         <div class="restaurant-details">
-          <h3 class="text-lg font-weight-bold">${name}</h3>
-          <p class="text-xs">${cuisines}</p>
+          <h3 class="text-lg font-weight-bold">${item.name}</h3>
+          <p class="text-xs">${item.cuisines}</p>
           <div class="restaurant-meta">
-            <span class="restaurant-rating">★ ${rating}</span>
+            <span class="restaurant-rating">★ ${item.rating}</span>
             <span>15-25 mins</span>
           </div>
         </div>

@@ -89,27 +89,6 @@ function startTimelineSimulation() {
       // Re-trigger/resume css offset animation
       carIcon.style.animationPlayState = "running";
     }
-  }, 2000); // Wait, 20 seconds is line 20000ms. Typo in comment: let's make it 20000ms.
-  // Wait, let's fix the delay! Yes, 20 seconds is 20000ms. The timeout for step 3 is absolute.
-  // Note: setTimeout is non-cumulative, so if we want it to run after 20s from start,
-  // we either chain them or use absolute offsets. Let's list absolute offsets from start:
-  // t=0s: Stage 1 active
-  // t=5s: Stage 2 active
-  // t=12s: Stage 3 active
-  // t=20s: Stage 4 active
-  // t=28s: Stage 5 active
-  // Yes! The timeouts are all declared inside `startTimelineSimulation` concurrently,
-  // so we must use absolute delays. Let's fix the absolute delays in our timeouts!
-
-  // --- Step 3 (corrected timeout to 20000ms) ---
-  setTimeout(() => {
-    s3.classList.remove("active");
-    s3.classList.add("completed");
-    
-    s4.classList.add("active");
-    if (bar) bar.style.height = "75%";
-    if (timer) timer.textContent = "8 - 12 Minutes";
-    updateBadge(badgeContainer, "Out for Delivery", "warning");
   }, 20000);
 
   // --- Step 4: Arrived / Delivered (after 28 seconds) ---

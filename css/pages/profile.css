@@ -373,3 +373,51 @@ textarea:focus {
   background: rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 0 15px rgba(255, 90, 54, 0.35) !important;
 }
+
+/* ------------------------------------------------------------------------
+   3. Restaurant Cards (Favorites Tab)
+   ------------------------------------------------------------------------ */
+.restaurant-card {
+  padding: 0 !important; /* Remove base card padding for full-bleed images */
+  overflow: hidden !important; /* Crop image overflow on rounded corners */
+}
+
+.restaurant-img-wrapper {
+  position: relative;
+  height: 180px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.restaurant-img-wrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.restaurant-details {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.restaurant-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-dark-border);
+  padding-top: var(--space-2);
+  margin-top: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--color-dark-text-muted);
+}
+
+.restaurant-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #F59E0B; /* Gold rating color */
+  font-weight: 600;
+}
+

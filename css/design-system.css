@@ -76,6 +76,7 @@ html {
   font-size: 16px; /* Base 1rem = 16px */
   scroll-behavior: smooth;
   height: 100%;
+  background-color: #0F1011; /* Prevent white background bleed-through under transparent scrollbars */
 }
 
 body {

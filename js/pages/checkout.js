@@ -93,12 +93,12 @@ function renderCheckout() {
           <!-- Name & Single Price -->
           <div class="cart-item-meta">
             <span class="font-weight-semibold text-sm" style="color: var(--color-dark-text-main);">${item.name}</span>
-            <span class="text-xs" style="color: var(--color-primary); font-weight: 600;">$${item.price.toFixed(2)}</span>
+            <span class="text-xs" style="color: var(--color-primary); font-weight: 600;">₹${item.price.toFixed(2)}</span>
           </div>
 
           <!-- Controls: Add/Minus and Price Total -->
           <div class="cart-item-controls">
-            <span class="font-weight-bold text-sm" style="color: var(--color-dark-text-main);">$${(item.price * item.quantity).toFixed(2)}</span>
+            <span class="font-weight-bold text-sm" style="color: var(--color-dark-text-main);">₹${(item.price * item.quantity).toFixed(2)}</span>
             
             <div style="display: flex; align-items: center; border: 1px solid var(--color-dark-border); border-radius: var(--radius-sm); overflow: hidden; background-color: var(--color-dark-bg);">
               <button type="button" onclick="changeQty('${item.name}', -1)" style="background: none; border: none; color: var(--color-dark-text-muted); cursor: pointer; padding: 2px 8px; font-size: 0.75rem;">-</button>
@@ -121,10 +121,10 @@ function calculatePricing(cart) {
   
   // Retrieve administrative system settings dynamically from localStorage
   const settingsData = localStorage.getItem("fastx_global_settings");
-  const settings = settingsData ? JSON.parse(settingsData) : { deliveryCharges: 2.00, gstPercent: 5.0 };
+  const settings = settingsData ? JSON.parse(settingsData) : { deliveryCharges: 40.00, gstPercent: 5.0 };
 
-  // Custom Premium Rule: Free delivery if order subtotal exceeds $15!
-  const deliveryFee = subtotal >= 15.00 ? 0.00 : settings.deliveryCharges;
+  // Custom Premium Rule: Free delivery if order subtotal exceeds ₹500!
+  const deliveryFee = subtotal >= 500.00 ? 0.00 : settings.deliveryCharges;
   
   const taxPercent = settings.gstPercent / 100;
   const taxes = subtotal * taxPercent;
@@ -136,10 +136,10 @@ function calculatePricing(cart) {
   const taxesElem = document.getElementById("summary-taxes");
   const grandTotalElem = document.getElementById("summary-grandtotal");
 
-  if (subtotalElem) subtotalElem.textContent = `$${subtotal.toFixed(2)}`;
+  if (subtotalElem) subtotalElem.textContent = `₹${subtotal.toFixed(2)}`;
   
   if (deliveryElem) {
-    deliveryElem.textContent = deliveryFee === 0.00 ? "FREE" : `$${deliveryFee.toFixed(2)}`;
+    deliveryElem.textContent = deliveryFee === 0.00 ? "FREE" : `₹${deliveryFee.toFixed(2)}`;
     if (deliveryFee === 0.00) {
       deliveryElem.style.color = "var(--color-success)";
       deliveryElem.style.fontWeight = "700";
@@ -149,8 +149,8 @@ function calculatePricing(cart) {
     }
   }
 
-  if (taxesElem) taxesElem.textContent = `$${taxes.toFixed(2)}`;
-  if (grandTotalElem) grandTotalElem.textContent = `$${grandTotal.toFixed(2)}`;
+  if (taxesElem) taxesElem.textContent = `₹${taxes.toFixed(2)}`;
+  if (grandTotalElem) grandTotalElem.textContent = `₹${grandTotal.toFixed(2)}`;
 }
 
 // 3. Checkout Qty adjustments
